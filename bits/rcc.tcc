@@ -170,7 +170,7 @@ namespace rcc {
   }
 
   /**
-   * @brief Enables the HSI oscillator.
+   * @brief Enables the LSI oscillator.
    */
   void Functions::enableLsi()
   {
@@ -181,7 +181,7 @@ namespace rcc {
   }
 
   /**
-   * @brief Enables the HSI oscillator.
+   * @brief Disables the LSI oscillator.
    */
   void Functions::disableLsi()
   {
@@ -192,7 +192,7 @@ namespace rcc {
   }
 
   /**
-   * @brief Enables the HSI oscillator.
+   * @brief Returns true if the LSI oscillator is stable.
    */
   bool Functions::isLsiStable()
   {
