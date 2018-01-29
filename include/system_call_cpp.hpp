@@ -29,7 +29,7 @@ extern int errno;
 
 extern "C" {
 
-  int _write(int, char *, int);
+  int _write(int, const char *, int);
 
   /**
    * @brief Opens a file
@@ -143,7 +143,7 @@ extern "C" {
   /**
    * @brief Write to a file
    */
-  int _write(int file, char *ptr, int len)
+  int _write(int file, const char *ptr, int len)
   {
     for (int i = 0; i < len; i++) {
 #if STDOUT_USART == 1

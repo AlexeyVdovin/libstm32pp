@@ -76,8 +76,8 @@ namespace interrupt {
     void CAN1_TX();
     void CAN1_RX0();
 #else
-    void USB_HP_CAN1_TX();
-    void USB_LP_CAN1_RX0();
+    void USB_HP_CAN_TX();
+    void USB_LP_CAN_RX0();
 #endif
 #ifndef VALUE_LINE
     void CAN1_RX1();

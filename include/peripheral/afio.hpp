@@ -46,11 +46,9 @@ namespace afio {
       static inline void enableClock();
       static inline void disableClock();
 
-      template <
-        exticr::States PORT,
-        u8 PIN
-      >
-      static inline void configureExti();
+      template <exticr::States PORT, u8 PIN> static inline void configureExti();
+      template <mapr::usart1::States MODE> static inline void configureUsart1();
+      template <mapr::can::States MODE> static inline void configureCan();
 
     private:
       Functions();

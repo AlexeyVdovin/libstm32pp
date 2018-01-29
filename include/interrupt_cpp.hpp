@@ -84,8 +84,8 @@ namespace interrupt {
       CAN1_TX,  // 0x008C
       CAN1_RX0,  // 0x0090
 #else
-      USB_HP_CAN1_TX,  // 0x008C
-      USB_LP_CAN1_RX0,// 0x0090
+      USB_HP_CAN_TX,  // 0x008C
+      USB_LP_CAN_RX0, // 0x0090
 #endif
 #ifndef VALUE_LINE
       CAN1_RX1,  // 0x0094
@@ -313,8 +313,8 @@ defined STM32F4XX
 #pragma weak CAN1_TX            = defaultInterruptHandler
 #pragma weak CAN1_RX0           = defaultInterruptHandler
 #else
-#pragma weak USB_HP_CAN1_TX     = defaultInterruptHandler
-#pragma weak USB_LP_CAN1_RX0    = defaultInterruptHandler
+#pragma weak USB_HP_CAN_TX     = defaultInterruptHandler
+#pragma weak USB_LP_CAN_RX0    = defaultInterruptHandler
 #endif
 
 #ifndef VALUE_LINE

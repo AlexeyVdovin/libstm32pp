@@ -665,12 +665,15 @@ void initialize()
   if (RCC::isHseStable()) {
 #endif // USING_HSE_CLOCK || USING_HSE_CRYSTAL
   /* PLL configuration ******************************************************/
+  enum {
+	_PLL_MUL_ = __PLLMUL - 2
+  };
 #ifdef USING_PLL
 #ifdef STM32F1XX
 #ifdef VALUE_LINE
   RCC::configurePll<
   __PLLSRC,
-  __PLLMUL,
+  _PLLMUL_,
   __PREDIV1
   >();
 #else // VALUE_LINE
@@ -678,12 +681,12 @@ void initialize()
   RCC::configurePll<
   __PLLSRC,
   __PLLXTPRE,
-  __PLLMUL
+  _PLL_MUL_
   >();
 #else // !CONNECTIVITY_LINE
   RCC::configurePll<
   __PLLSRC,
-  __PLLMUL,
+  _PLLMUL_,
   __PREDIV1,
   __PREDIV2,
   __PLL2MUL,
@@ -770,7 +773,8 @@ void initialize()
   FLASH::configure(
       __LATENCY,
       flash::acr::hlfcya::
-      FLASH_HALF_CYCLE_ACCESS_ENABLED,
+      // FLASH_HALF_CYCLE_ACCESS_ENABLED,
+      FLASH_HALF_CYCLE_ACCESS_DISABLED,
       flash::acr::prftbe::
       PREFETCH_ENABLED);
 #endif // VALUE_LINE
