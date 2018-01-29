@@ -130,12 +130,12 @@ namespace gpio {
   template<Address P, u8 N>
   void Pin<P, N>::setMode(cr::States Mode)
   {
-    reinterpret_cast<Registers*>(P)->CR[N > 7 ? 1 : 0] &=
-    ~(cr::MASK <<
-        cr::POSITION * (N > 7 ? (N - 8) : N));
-
-    reinterpret_cast<Registers*>(P)->CR[N > 7 ? 1 : 0] |=
-    Mode << cr::POSITION * (N > 7 ? (N - 8) : N);
+    auto tempReg = reinterpret_cast<Registers*>(P)->CR[N > 7 ? 1 : 0];
+    
+    tempReg &= ~(cr::MASK << cr::POSITION * (N > 7 ? (N - 8) : N));
+    tempReg |= Mode << cr::POSITION * (N > 7 ? (N - 8) : N);
+    
+    reinterpret_cast<Registers*>(P)->CR[N > 7 ? 1 : 0] = tempReg;
   }
 
   /**
