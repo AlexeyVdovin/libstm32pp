@@ -645,7 +645,7 @@ namespace rcc {
   {
     static_assert(PLLXTPRE < 2,
         "PLLXTPRE can only take these values: 0 or 1");
-    static_assert(PLLMUL < 16,
+    static_assert(PLLMUL <= 15,
         "PLLMUL must be between 0 and 15. (inclusive)");
 
     RCC_REGS->CFGR &=

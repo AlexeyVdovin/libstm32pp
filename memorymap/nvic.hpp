@@ -109,8 +109,8 @@ namespace nvic {
       CAN1_TX = 19,
       CAN1_RX0 = 20,
   #else
-      USB_HP_CAN1_TX = 19,
-      USB_LP_CAN1_RX0 = 20,
+      USB_HP_CAN_TX = 19,
+      USB_LP_CAN_RX0 = 20,
   #endif
   #ifndef VALUE_LINE
       CAN1_RX1 = 21,

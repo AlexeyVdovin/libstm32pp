@@ -41,6 +41,187 @@ namespace afio {
       u32 MAPR2;      // 0x1C: Remap and debug configuration 2
   };
 
+  namespace mapr {
+    namespace spi1 {
+      enum {
+        POSITION = 0,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        REMAP = 1
+      };
+    }
+    namespace i2c1 {
+      enum {
+        POSITION = 1,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        REMAP = 1
+      };
+    }
+    namespace usart1 {
+      enum {
+        POSITION = 2,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        REMAP = 1
+      };
+    }
+    namespace usart2 {
+      enum {
+        POSITION = 3,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        REMAP = 1
+      };
+    }
+    namespace usart3 {
+      enum {
+        POSITION = 4,
+        MASK = 0b11 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        PARTIAL_REMAP = 1,
+        FULL_REMAP = 3
+      };
+    }
+    namespace tim1 {
+      enum {
+        POSITION = 6,
+        MASK = 0b11 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        PARTIAL_REMAP = 1,
+        FULL_REMAP = 3
+      };
+    }
+    namespace tim2 {
+      enum {
+        POSITION = 8,
+        MASK = 0b11 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        PARTIAL_REMAP_PA15 = 1,
+        PARTIAL_REMAP_PA0 = 2,
+        FULL_REMAP = 3
+      };
+    }
+    namespace tim3 {
+      enum {
+        POSITION = 10,
+        MASK = 0b11 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        PARTIAL_REMAP = 2,
+        FULL_REMAP = 3
+      };
+    }
+    namespace tim4 {
+      enum {
+        POSITION = 12,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        REMAP = 1
+      };
+    }
+    namespace can {
+      enum {
+        POSITION = 13,
+        MASK = 0b11 << POSITION
+      };
+      enum States {
+        PA11_PA12 = 0,
+        PB8_PB9   = 2,
+        PD0_PD1   = 3
+      };
+    }
+    namespace pd01 {
+      enum {
+        POSITION = 15,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        REMAP = 1
+      };
+    }
+    namespace tim5ch4 {
+      enum {
+        POSITION = 16,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        REMAP = 1
+      };
+    }
+    namespace adc1_inj {
+      enum {
+        POSITION = 17,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        REMAP = 1
+      };
+    }
+    namespace adc1 {
+      enum {
+        POSITION = 18,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        REMAP = 1
+      };
+    }
+    namespace adc2_inj {
+      enum {
+        POSITION = 19,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        REMAP = 1
+      };
+    }
+    namespace adc2 {
+      enum {
+        POSITION = 20,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_REMAP = 0,
+        REMAP = 1
+      };
+    }
+    namespace swj {
+      enum {
+        POSITION = 24,
+        MASK = 0b111 << POSITION
+      };
+      enum States {
+        SWJ = 0,
+        SWJ_NO_NJTRST = 1,
+        JTAG_DP_DISABLED = 2,
+        JTAG_SW_DP_DISABLED = 3
+      };
+    }
+  }
+
   namespace exticr {
     enum {
       MASK = 0b1111,

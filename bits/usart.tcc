@@ -146,6 +146,34 @@ namespace usart {
   }
 
   /**
+   * @brief Returns status register value.
+   */
+  template<Address A>
+  u32 Asynchronous<A>::getStatus()
+  {
+	return reinterpret_cast<Registers*>(A)->SR;
+  }
+  
+  /**
+   * @brief Enable TX End Interrupt.
+   */
+  template<Address A>
+  void Asynchronous<A>::enableTXEI()
+  {
+	*(bool volatile*)(bitband::peripheral<A + cr1::OFFSET, cr1::txeie::POSITION>()) = true;
+  }
+  
+  /**
+   * @brief Disable TX End Interrupt.
+   */
+  template<Address A>
+  void Asynchronous<A>::disableTXEI()
+  {
+	*(bool volatile*)(bitband::peripheral<A + cr1::OFFSET, cr1::txeie::POSITION>()) = false;
+  }
+
+
+  /**
    * @brief Configures the USART for asynchronous operation.
    * @note  Overrides the old configuration.
    */

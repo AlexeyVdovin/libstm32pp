@@ -36,7 +36,7 @@ namespace clk {
    ****************************************************************************/
 
   /* Are you using an external high speed crystal, resonator or oscillator? ***/
-//#define USING_HSE_CRYSTAL
+#define USING_HSE_CRYSTAL
   /******* Comment the macro above to answer no, otherwise your answer is yes */
 
 #ifndef USING_HSE_CRYSTAL
@@ -158,7 +158,7 @@ namespace clk {
    ****************************************************************************/
 
   /* Do you want to use the PLL? **********************************************/
-//#define USING_PLL
+#define USING_PLL
   /******* Comment the macro above to answer no, otherwise your answer is yes */
 
 #ifdef USING_PLL
@@ -174,7 +174,8 @@ namespace clk {
    *
    * Select the PLL source ****************************************************/
   rcc::cfgr::pllsrc::States const __PLLSRC = rcc::cfgr::pllsrc::
-  USE_PREDIV1_OUTPUT_AS_PLL_SOURCE;
+     USE_PREDIV1_OUTPUT_AS_PLL_SOURCE;
+  // USE_HSI_CLOCK_OVER_2_AS_PLL_SOURCE;
   /**************************************************** Select the PLL source */
 #ifndef CONNECTIVITY_LINE
 #ifdef VALUE_LINE
@@ -240,7 +241,7 @@ namespace clk {
    *
    * Select the PLL parameters ************************************************/
   enum {
-    __PLLMUL = 2
+    __PLLMUL = 4 // 4MHz x 7 - OK
   };
   /************************************************ Select the PLL paraneters */
 #else // STM32F1XX
@@ -286,7 +287,8 @@ namespace clk {
 
   /* Select the system clock source *******************************************/
   rcc::cfgr::sw::States const __SW =
-      rcc::cfgr::sw::HSI_OSCILLATOR_SELECTED_AS_SYSTEM_CLOCK;
+	      rcc::cfgr::sw::PLL_SELECTED_AS_SYSTEM_CLOCK;
+//        rcc::cfgr::sw::HSI_OSCILLATOR_SELECTED_AS_SYSTEM_CLOCK;
   /******************************************* Select the system clock source */
   /****************************************************************************
    *                                                                          *
@@ -446,7 +448,7 @@ namespace clk {
    * Define the prescaler parameters below ************************************/
   enum {
     __HPRE = 0,
-    __PPRE1 = 0,
+    __PPRE1 = 2,
     __PPRE2 = 0,
   };
   /************************************ Define the prescaler parameters above */
@@ -460,7 +462,7 @@ namespace clk {
    *
    * Define the prescaler parameters below ************************************/
   enum {
-    __ADCPRE = 1,
+    __ADCPRE = 2,
   };
   /************************************ Define the prescaler parameters above */
 #endif
@@ -519,7 +521,9 @@ namespace clk {
 
   /* Select the flash memory access latency ***********************************/
   flash::acr::latency::States const __LATENCY =
-      flash::acr::latency::ZERO_WAIT_STATE;
+//	      flash::acr::latency::TWO_WAIT_STATES;
+          flash::acr::latency::ONE_WAIT_STATE;
+//        flash::acr::latency::ZERO_WAIT_STATE;
   /*********************************** Select the flash memory access latency */
   /* IMPORTANT: USING A LOW LATENCY AT HIGH CORE'S FREQUENCY MIGHT RESULT IN
    *            FLASH MEMORY ACCESS ERRORS AT RUN TIME. ***********************/
