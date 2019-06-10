@@ -1,6 +1,7 @@
 /*******************************************************************************
  *
  * Copyright (C) 2012 Jorge Aparicio <jorge.aparicio.r@gmail.com>
+ * Copyright (C) 2013 Rommel Marcelo <jaqueza@gmail.com> 
  *
  * This file is part of libstm32pp.
  *
@@ -58,16 +59,28 @@ namespace usart {
 
       static inline void enableClock();
       static inline void disableClock();
+      static inline void unmaskInterrupts();
+      static inline void maskInterrupts();
+      static inline void enableTxIrq();
+      static inline void disableTxIrq();
+      static inline void enableRxIrq();
+      static inline void disableRxIrq();
+
       static inline void sendData(u8 const data);
       static inline u8 getData();
       static inline bool canSendDataYet();
       static inline bool isThereDataAvailable();
+      static inline u32 getStatus();
       template<u32 BAUD_RATE>
       static inline void setBaudRate();
       static inline u32 getStatus();
       static inline void enableTXEI();
       static inline void disableTXEI();
 
+
+      static inline void clearCTSflag();
+      static inline void clearLineBreakFlag();
+      static inline void clearErrors();
 
       /**
        * @brief Configures the USART for asynchronous operation.
@@ -135,5 +148,6 @@ typedef usart::Asynchronous<usart::UART5> UART5;
 #ifndef STM32F1XX
 typedef usart::Asynchronous<usart::USART6> USART6;
 #endif
+
 
 #include "../../bits/usart.tcc"

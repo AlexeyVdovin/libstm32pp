@@ -1,6 +1,7 @@
 /*******************************************************************************
  *
  * Copyright (C) 2012 Jorge Aparicio <jorge.aparicio.r@gmail.com>
+ * Copyright (C) 2013 Rommel Marcelo <jaqueza@gmail.com>
  *
  * This file is part of libstm32pp.
  *
@@ -23,6 +24,7 @@
 
 #include "bitband.hpp"
 #include "../include/peripheral/rcc.hpp"
+#include "../include/core/nvic.hpp"
 
 namespace usart {
   /**
@@ -172,7 +174,88 @@ namespace usart {
 	*(bool volatile*)(bitband::peripheral<A + cr1::OFFSET, cr1::txeie::POSITION>()) = false;
   }
 
+  /**
+   * @brief Enable Transmit interrupt.
+   */
+  template<Address A>
+  void Asynchronous<A>::enableTxIrq()
+  {
+	  *(bool volatile*) (bitband::peripheral<
+	          A + cr1::OFFSET,
+	          cr1::txeie::POSITION>()) = 1;
+  }
+  /**
+   * @brief Disable Transmit interrupt.
+   */
+  template<Address A>
+  void Asynchronous<A>::disableTxIrq()
+  {
+	  *(bool volatile*) (bitband::peripheral<
+	          A + cr1::OFFSET,
+	          cr1::txeie::POSITION>()) = 0;
+  }
+  /**
+   * @brief Enable Receive interrupt.
+   */
+  template<Address A>
+  void Asynchronous<A>::enableRxIrq()
+  {
+	  *(bool volatile*) (bitband::peripheral<
+	          A + cr1::OFFSET,
+	          cr1::rxneie::POSITION>()) = 1;
+  }
+  /**
+   * @brief Disable Receive interrupt.
+   */
+  template<Address A>
+  void Asynchronous<A>::disableRxIrq()
+  {
+	  *(bool volatile*) (bitband::peripheral<
+	          A + cr1::OFFSET,
+	          cr1::rxneie::POSITION>()) = 0;
+  }
 
+  /**
+   * @brief Returns Interrupt status.
+   * @note
+   */
+  template<Address A>
+  u32 Asynchronous<A>::getStatus()
+  {
+	  u32 regval = (reinterpret_cast<Registers*>(A)->SR) & sr::MASK;
+	  return regval;
+  }
+
+  /**
+   * @brief Clear the CTS  flag
+   */
+  template<Address A>
+  void Asynchronous<A>::clearCTSflag()
+  {
+	  *(bool volatile*) (bitband::peripheral<
+	          A + sr::OFFSET,
+	          sr::cts::POSITION>()) = 0;
+  }
+  /**
+   * @brief Clear the Line Break flag
+   */
+  template<Address A>
+  void Asynchronous<A>::clearLineBreakFlag()
+  {
+	  *(bool volatile*) (bitband::peripheral<
+	          A + sr::OFFSET,
+	          sr::lbd::POSITION>()) = 0;
+  }
+  /**
+   * @brief Clear all errors
+   * @note  Data is lost when this is called.
+   */
+  template<Address A>
+  void Asynchronous<A>::clearErrors()
+  {
+	  getStatus();
+	  getData();
+  }
   /**
    * @brief Configures the USART for asynchronous operation.
    * @note  Overrides the old configuration.
@@ -213,5 +296,89 @@ namespace usart {
         EIE + HDSEL + DMAR + DMAT + RSTE + CTSE + CTSIE + ONEBIT;
   }
 
+  /**
+   * @brief Unmasks all the usart interrupts.
+   */
+  template<Address A>
+  void Asynchronous<A>::unmaskInterrupts()
+  {
+    switch (A) {
+/*//#if defined XL_DENSITY || \ //TODO
+//    defined STM32F2XX || \
+//    defined STM32F4XX */
+      case USART1:
+    	  NVIC::enableIrq<
+    	  nvic::irqn::USART1
+    	  >();
+    	  break;
+      case USART2:
+    	  NVIC::enableIrq<
+    	  nvic::irqn::USART2
+    	  >();
+    	  break;
+      case USART3:
+    	  NVIC::enableIrq<
+    	  nvic::irqn::USART3
+    	  >();
+    	  break;
+      case UART4:
+    	  NVIC::enableIrq<
+    	  nvic::irqn::UART4
+    	  >();
+    	  break;
+      case UART5:
+		  NVIC::enableIrq<
+		  nvic::irqn::UART5
+		  >();
+		  break;
+      case USART6:
+		  NVIC::enableIrq<
+		  nvic::irqn::USART6
+		  >();
+		  break;
+    }
+  }
+  /**
+   * @brief Unmasks all the usart interrupts.
+   */
+  template<Address A>
+  void Asynchronous<A>::maskInterrupts()
+  {
+    switch (A) {
+/*//#if defined XL_DENSITY || \ //TODO
+//    defined STM32F2XX || \
+//    defined STM32F4XX */
+      case USART1:
+    	  NVIC::disableIrq<
+    	  nvic::irqn::USART1
+    	  >();
+    	  break;
+      case USART2:
+    	  NVIC::disableIrq<
+    	  nvic::irqn::USART2
+    	  >();
+    	  break;
+      case USART3:
+    	  NVIC::disableIrq<
+    	  nvic::irqn::USART3
+    	  >();
+    	  break;
+      case UART4:
+    	  NVIC::disableIrq<
+    	  nvic::irqn::UART4
+    	  >();
+    	  break;
+      case UART5:
+		  NVIC::disableIrq<
+		  nvic::irqn::UART5
+		  >();
+		  break;
+      case USART6:
+		  NVIC::disableIrq<
+		  nvic::irqn::USART6
+		  >();
+		  break;
+    }
+  }
 }  // namespace usart
 
