@@ -159,6 +159,24 @@ namespace i2c {
   }
 
   /**
+   * @brief Turns off the I2C peripheral.
+   */
+  template<Address I>
+  void Standard<I>::setSlaveAddr1(u8 addr)
+  {
+    reinterpret_cast<Registers*>(I)->OAR1 = addr;
+  }
+  
+  /**
+   * @brief Turns off the I2C peripheral.
+   */
+  template<Address I>
+  void Standard<I>::setSlaveAddr2(u8 addr)
+  {
+    reinterpret_cast<Registers*>(I)->OAR2 = addr;
+  }
+
+  /**
    * @brief Sends Start condition.
    */
   template<Address I>
@@ -192,7 +210,7 @@ namespace i2c {
   }
 
   /**
-   * @brief Sends data.
+   * @brief Reads data.
    */
   template<Address I>
   u8 Standard<I>::getData()

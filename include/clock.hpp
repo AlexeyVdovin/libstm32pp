@@ -102,7 +102,7 @@ namespace clk {
 
 #endif // USING_LSE_CRYSTAL || USING_LSE_CLOCK
   /* Do you want to use the LSI? **********************************************/
-//#define USING_LSI
+#define USING_LSI
   /******* Comment the macro above to answer no, otherwise your answer is yes */
 
   /****************************************************************************
@@ -112,7 +112,7 @@ namespace clk {
    ****************************************************************************/
 
   /* Are you going to use the Real time clock module? *************************/
-//#define USING_RTC
+#define USING_RTC
   /******* Comment the macro above to answer no, otherwise your answer is yes */
 
 #ifdef USING_RTC
@@ -146,8 +146,8 @@ namespace clk {
   enum {
     __RTCPRE = 8
   };
-  rcc::bdcr::rtcsel::States const __RTCSEL = rcc::bdcr::rtcsel::
-  LSE_CLOCK_AS_RTC_SOURCE;
+//  rcc::bdcr::rtcsel::States const __RTCSEL = rcc::bdcr::rtcsel::LSE_CLOCK_AS_RTC_SOURCE;
+  rcc::bdcr::rtcsel::States const __RTCSEL = rcc::bdcr::rtcsel::LSI_CLOCK_AS_RTC_SOURCE;
   /****************************************** Define the prescaler parameters */
 #endif // STM32F1XX
 #endif // USING_RTC
@@ -270,10 +270,10 @@ namespace clk {
    *
    * Define the PLL parameters below  *****************************************/
   enum {
-    __PLLM = 4,
-    __PLLN = 168,
+    __PLLM = 8,
+    __PLLN = 336,
     __PLLP = 2,
-    __PLLQ = 7,
+    __PLLQ = 7
   };
   /****************************************** Define the PLL parameters above */
 
@@ -287,8 +287,9 @@ namespace clk {
 
   /* Select the system clock source *******************************************/
   rcc::cfgr::sw::States const __SW =
-	      rcc::cfgr::sw::PLL_SELECTED_AS_SYSTEM_CLOCK;
-//        rcc::cfgr::sw::HSI_OSCILLATOR_SELECTED_AS_SYSTEM_CLOCK;
+  //	rcc::cfgr::sw::HSI_OSCILLATOR_SELECTED_AS_SYSTEM_CLOCK;
+  //	rcc::cfgr::sw::HSE_OSCILLATOR_SELECTED_AS_SYSTEM_CLOCK;
+  	rcc::cfgr::sw::PLL_SELECTED_AS_SYSTEM_CLOCK;
   /******************************************* Select the system clock source */
   /****************************************************************************
    *                                                                          *
@@ -521,7 +522,7 @@ namespace clk {
 
   /* Select the flash memory access latency ***********************************/
   flash::acr::latency::States const __LATENCY =
-//	      flash::acr::latency::TWO_WAIT_STATES;
+//        flash::acr::latency::TWO_WAIT_STATES;
           flash::acr::latency::ONE_WAIT_STATE;
 //        flash::acr::latency::ZERO_WAIT_STATE;
   /*********************************** Select the flash memory access latency */
