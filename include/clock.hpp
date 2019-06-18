@@ -36,7 +36,7 @@ namespace clk {
    ****************************************************************************/
 
   /* Are you using an external high speed crystal, resonator or oscillator? ***/
-#define USING_HSE_CRYSTAL
+//#define USING_HSE_CRYSTAL
   /******* Comment the macro above to answer no, otherwise your answer is yes */
 
 #ifndef USING_HSE_CRYSTAL
@@ -102,7 +102,7 @@ namespace clk {
 
 #endif // USING_LSE_CRYSTAL || USING_LSE_CLOCK
   /* Do you want to use the LSI? **********************************************/
-//#define USING_LSI
+#define USING_LSI
   /******* Comment the macro above to answer no, otherwise your answer is yes */
 
   /****************************************************************************
@@ -174,8 +174,8 @@ namespace clk {
    *
    * Select the PLL source ****************************************************/
   rcc::cfgr::pllsrc::States const __PLLSRC = rcc::cfgr::pllsrc::
-     USE_PREDIV1_OUTPUT_AS_PLL_SOURCE;
-  // USE_HSI_CLOCK_OVER_2_AS_PLL_SOURCE;
+  //   USE_PREDIV1_OUTPUT_AS_PLL_SOURCE;
+     USE_HSI_CLOCK_OVER_2_AS_PLL_SOURCE;
   /**************************************************** Select the PLL source */
 #ifndef CONNECTIVITY_LINE
 #ifdef VALUE_LINE
@@ -241,7 +241,7 @@ namespace clk {
    *
    * Select the PLL parameters ************************************************/
   enum {
-    __PLLMUL = 4 // 4MHz x 7 - OK
+    __PLLMUL = 8 // 4MHz x 7 - OK
   };
   /************************************************ Select the PLL paraneters */
 #else // STM32F1XX
@@ -447,9 +447,9 @@ namespace clk {
    *
    * Define the prescaler parameters below ************************************/
   enum {
-    __HPRE = 0,
+    __HPRE = 1,
     __PPRE1 = 2,
-    __PPRE2 = 0,
+    __PPRE2 = 2,
   };
   /************************************ Define the prescaler parameters above */
 
