@@ -71,6 +71,8 @@ namespace i2c {
       static inline void disableClock();
       static inline void enablePeripheral();
       static inline void disablePeripheral();
+      static inline void setSlaveAddr1(u8 addr);
+      static inline void setSlaveAddr2(u8 addr);
       static inline void sendStart();
       static inline void sendStop();
       static inline void sendData(u8 const data);
