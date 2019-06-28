@@ -297,6 +297,7 @@ namespace adc {
         ANALOG_WATCHDOG_ENABLED_ON_REGULAR_CHANNELS = 1 << POSITION,
       };
     }  // namespace awden
+#ifndef STM32F1XX
     namespace res {
       enum {
         POSITION = 24,
@@ -319,6 +320,7 @@ namespace adc {
         ENABLE_OVERRUN_INTERRUPT_ENABLED = 1 << POSITION,
       };
     }  // namespace ovrie
+#endif
   }  // namespace cr1
 
   namespace cr2 {
@@ -345,6 +347,18 @@ namespace adc {
         CONTINUOUS_CONVERSION_MODE = 1 << POSITION,
       };
     }  // namespace cont
+    namespace cal {
+      enum {
+          POSITION = 2,
+          MASK = 1 << POSITION
+      };
+    }
+    namespace rst_cal {
+      enum {
+          POSITION = 3,
+          MASK = 1 << POSITION
+      };
+    }
     namespace dma {
       enum {
         POSITION = 8,
@@ -355,6 +369,7 @@ namespace adc {
         DMA_MODE_ENABLED = 1 << POSITION,
       };
     }  // namespace dma
+#ifndef STM32F1XX
     namespace dds {
       enum {
         POSITION = 9,
@@ -376,7 +391,7 @@ namespace adc {
         EOC_BIT_IS_SET_AFTER_EACH_REGULAR_CONVERSION = 1 << POSITION,
       };
     }  // namespace eocs
-
+#endif
     namespace align {
       enum {
         POSITION = 11,
@@ -387,7 +402,96 @@ namespace adc {
         LEFT_ALIGNED_DATA = 1 << POSITION,
       };
     }  // namespace align
+#ifdef STM32F1XX
+    namespace jextsel {
+      enum {
+        POSITION = 12,
+        MASK = 0b111 << POSITION
+      };
+      enum States {
+          INJECTED_GROUP_TRIGGERED_BY_TIMER1_TRGO = 0 << POSITION,
+          INJECTED_GROUP_TRIGGERED_BY_TIMER1_CC4 = 1 << POSITION,
+          INJECTED_GROUP_TRIGGERED_BY_TIMER2_TRGO = 2 << POSITION,
+          INJECTED_GROUP_TRIGGERED_BY_TIMER2_CC1 = 3 << POSITION,
+          INJECTED_GROUP_TRIGGERED_BY_TIMER3_CC4 = 4 << POSITION,
+          INJECTED_GROUP_TRIGGERED_BY_TIMER4_TRGO = 5 << POSITION,
+          INJECTED_GROUP_TRIGGERED_BY_TIMER8_CC4 = 6 << POSITION,
+          INJECTED_GROUP_TRIGGERED_BY_SWSTART = 7 << POSITION,
+      };
+    } // namespace jextel
 
+    namespace jexttrig {
+      enum {
+        POSITION = 15,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        EXT_TRIGGER_DISABLED = 0 << POSITION,
+        EXT_TRIGGER_ENABLED = 1 << POSITION,
+      };
+    } // namespace jexttrig
+
+    namespace extsel {
+      enum {
+        POSITION = 17,
+        MASK = 0b111 << POSITION
+      };
+      enum States {
+        REGULAR_GROUP_TRIGGERED_BY_TIMER1_CC1 = 0 << POSITION,
+        REGULAR_GROUP_TRIGGERED_BY_TIMER1_CC2 = 1 << POSITION,
+        REGULAR_GROUP_TRIGGERED_BY_TIMER1_CC3 = 2 << POSITION,
+        REGULAR_GROUP_TRIGGERED_BY_TIMER2_CC2 = 3 << POSITION,
+        REGULAR_GROUP_TRIGGERED_BY_TIMER3_TRGO = 4 << POSITION,
+        REGULAR_GROUP_TRIGGERED_BY_TIMER4_CC4 = 5 << POSITION,
+        REGULAR_GROUP_TRIGGERED_BY_TIMER8_TRGO = 6 << POSITION,
+        REGULAR_GROUP_TRIGGERED_BY_SWSTART = 7 << POSITION,
+      };
+    } // namespace extsel
+
+    namespace exttrig {
+      enum {
+        POSITION = 20,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        EXT_TRIGGER_DISABLED = 0 << POSITION,
+        EXT_TRIGGER_ENABLED = 1 << POSITION,
+      };
+    } // namespace jexttrig
+
+    namespace jswstart {
+      enum {
+        POSITION = 21,
+        MASK = 1 << POSITION
+      };
+      enum States {
+    	INJECTED_CHANNELS_ON_RESET_STATE = 0 << POSITION,
+        START_CONVERSION_ON_INJECTED_CHANNELS = 1 << POSITION,
+      };
+    } // namespace jswstart
+
+    namespace swstart {
+      enum {
+        POSITION = 22,
+        MASK = 1 << POSITION
+      };
+      enum States {
+    	REGULAR_CHANNELS_ON_RESET_STATE = 0 << POSITION,
+        START_CONVERSION_ON_REGULAR_CHANNELS = 1 << POSITION,
+      };
+    } // namespace swstart
+
+    namespace tsvrefe {
+      enum {
+        POSITION = 23,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        TEMPERATURE_SENSOR_DISABLED = 0 << POSITION,
+        TEMPERATURE_SENSOR_ENABLED = 1 << POSITION,
+      };
+    } // namespace tsvrefe
+#else
     namespace jextsel {
       enum {
         POSITION = 16,
@@ -425,6 +529,7 @@ namespace adc {
         INJECTED_TRIGGERED_ON_RISING_AND_FALLING_EDGES = 3 << POSITION,
       };
     }  // namespace jexten
+
     namespace jswstart {
       enum {
         POSITION = 22,
@@ -484,6 +589,7 @@ namespace adc {
         START_CONVERSION_ON_REGULAR_CHANNELS = 1 << POSITION,
       };
     }  // namespace swstart
+#endif
   }  // namespace cr2
 
   namespace smpr1 {
@@ -497,7 +603,24 @@ namespace adc {
       OFFSET = 0x10
     };
   }  // namespace smpr2
-
+#ifdef STM32F1XX
+  namespace smp {
+    enum {
+      MASK = 0b111,
+      POSITION = 0
+    };
+    enum States {
+      SAMPLING_TIME_1_5_CYCLES = 0,
+      SAMPLING_TIME_7_5_CYCLES = 1,
+      SAMPLING_TIME_13_5_CYCLES = 2,
+      SAMPLING_TIME_28_5_CYCLES = 3,
+      SAMPLING_TIME_41_5_CYCLES = 4,
+      SAMPLING_TIME_55_5_CYCLES = 5,
+      SAMPLING_TIME_71_5_CYCLES = 6,
+      SAMPLING_TIME_239_5_CYCLES = 7,
+    };
+  }  // namespace smp
+#else
   namespace smp {
     enum {
       MASK = 0b111,
@@ -514,7 +637,7 @@ namespace adc {
       SAMPLING_TIME_480_CYCLES = 7,
     };
   }  // namespace smp
-
+#endif
   namespace jofr1 {
     enum {
       OFFSET = 0x14
@@ -550,7 +673,7 @@ namespace adc {
       OFFSET = 0x28
     };
   }  // namespace ltr
-
+// ------------------------ VVVVV ----------------------------
   namespace sqr1 {
     enum {
       OFFSET = 0x2C
@@ -596,7 +719,7 @@ namespace adc {
   namespace sqr {
     enum {
       MASK = 0b11111,
-      POSITION = 5
+      POSITION = 0
     };
   }  // namespace sqr
 
@@ -621,7 +744,7 @@ namespace adc {
   namespace jsq {
     enum {
       MASK = 0b11111,
-      POSITION = 5
+      POSITION = 0
     };
   }  // namespace jsq
 
@@ -660,7 +783,7 @@ namespace adc {
       OFFSET = 0x00
     };
   }  // namespace csr
-
+#ifndef STM32F1XX
   namespace ccr {
     enum {
       OFFSET = 0x04
@@ -695,5 +818,6 @@ namespace adc {
     enum {
       OFFSET = 0x08
     };
+#endif
   }  // namespace cdr
 }  // namespace adc
