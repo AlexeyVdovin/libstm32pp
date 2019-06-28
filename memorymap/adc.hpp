@@ -420,7 +420,7 @@ namespace adc {
       };
     } // namespace jextel
 
-    namespace jexttrig {
+    namespace jexten {
       enum {
         POSITION = 15,
         MASK = 1 << POSITION
@@ -448,7 +448,7 @@ namespace adc {
       };
     } // namespace extsel
 
-    namespace exttrig {
+    namespace exten {
       enum {
         POSITION = 20,
         MASK = 1 << POSITION
@@ -818,6 +818,6 @@ namespace adc {
     enum {
       OFFSET = 0x08
     };
-#endif
   }  // namespace cdr
+#endif
 }  // namespace adc

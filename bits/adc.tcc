@@ -327,13 +327,17 @@ namespace adc {
       cr1::discnum::States DISCNUM,
       cr1::jawden::States JAWDEN,
       cr1::awden::States AWDEN,
+#ifndef STM32F1XX      
       cr1::res::States RES,
       cr1::ovrie::States OVRIE,
+#endif      
       cr2::adon::States ADON,
       cr2::cont::States CONT,
       cr2::dma::States DMA,
+#ifndef STM32F1XX      
       cr2::dds::States DDS,
       cr2::eocs::States EOCS,
+#endif      
       cr2::align::States ALIGN,
       cr2::jextsel::States JEXTSEL,
       cr2::jexten::States JEXTEN,
@@ -344,11 +348,21 @@ namespace adc {
   {
     reinterpret_cast<Registers*>(A)->CR1 =
         AWDCH + EOCIE + AWDIE + JEOCIE + SCAN + AWDSGL + JAUTO + DISCEN +
-            JDISCEN + DISCNUM + JAWDEN + AWDEN + RES + OVRIE;
-
+            JDISCEN + DISCNUM + JAWDEN + AWDEN
+#ifdef STM32F1XX
+            + 0;
+#else
+            + RES + OVRIE;
+#endif
+            
     reinterpret_cast<Registers*>(A)->CR2 =
-        ADON + CONT + DMA + DDS + EOCS + ALIGN + JEXTSEL + JEXTEN + JSWSTART +
-            EXTSEL + EXTEN + SWSTART;
+        ADON + CONT + DMA + ALIGN + JEXTSEL + JEXTEN + JSWSTART +
+            EXTSEL + EXTEN + SWSTART
+#ifdef STM32F1XX
+            + 0;
+#else
+            + DDS + EOCS;
+#endif            
   }
 
 #ifndef STM32F1XX

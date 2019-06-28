@@ -98,13 +98,17 @@ namespace adc {
           adc::cr1::discnum::States,
           adc::cr1::jawden::States,
           adc::cr1::awden::States,
+#ifndef STM32F1XX
           adc::cr1::res::States,
           adc::cr1::ovrie::States,
+#endif
           adc::cr2::adon::States,
           adc::cr2::cont::States,
           adc::cr2::dma::States,
+#ifndef STM32F1XX
           adc::cr2::dds::States,
           adc::cr2::eocs::States,
+#endif
           adc::cr2::align::States,
           adc::cr2::jextsel::States,
           adc::cr2::jexten::States,
