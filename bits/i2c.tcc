@@ -443,10 +443,10 @@ namespace i2c {
     return getData();
   }
 
-  template<Address C>
-  void Functions<C>::unmaskInterrupts()
+  template<Address I>
+  void Standard<I>::unmaskInterrupts()
   {
-    switch(C)
+    switch(I)
     {
       case I2C1:
         NVIC::enableIrq<nvic::irqn::I2C1_EV>();
@@ -459,10 +459,10 @@ namespace i2c {
     }
   }
 
-  template<Address C>
-  void Functions<C>::maskInterrupts()
+  template<Address I>
+  void Standard<I>::maskInterrupts()
   {
-    switch(C)
+    switch(I)
     {
       case I2C1:
         NVIC::disableIrq<nvic::irqn::I2C1_EV>();
