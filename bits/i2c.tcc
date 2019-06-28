@@ -166,7 +166,7 @@ namespace i2c {
   {
     reinterpret_cast<Registers*>(I)->OAR1 = addr;
   }
-  
+
   /**
    * @brief Turns off the I2C peripheral.
    */
@@ -338,6 +338,24 @@ namespace i2c {
     >());
   }
 
+  template<Address I>
+  bool Standard<I>::isAddrMatched()
+  {
+    return *(bool volatile*) bitband::peripheral<
+        I + sr1::OFFSET,
+        sr1::addr::POSITION
+    >();
+  }
+
+  template<Address I>
+  bool Standard<I>::isStopReceived()
+  {
+    return *(bool volatile*) bitband::peripheral<
+        I + sr1::OFFSET,
+        sr1::stopf::POSITION
+    >();
+  }
+
   /**
    * @brief Writes a value to a slave device register.
    */
@@ -424,4 +442,37 @@ namespace i2c {
 
     return getData();
   }
+
+  template<Address C>
+  void Functions<C>::unmaskInterrupts()
+  {
+    switch(C)
+    {
+      case I2C1:
+        NVIC::enableIrq<nvic::irqn::I2C1_EV>();
+        NVIC::enableIrq<nvic::irqn::I2C1_ER>();
+        break;
+      case I2C2:
+        NVIC::enableIrq<nvic::irqn::I2C2_EV>();
+        NVIC::enableIrq<nvic::irqn::I2C2_ER>();
+        break;
+    }
+  }
+
+  template<Address C>
+  void Functions<C>::maskInterrupts()
+  {
+    switch(C)
+    {
+      case I2C1:
+        NVIC::disableIrq<nvic::irqn::I2C1_EV>();
+        NVIC::disableIrq<nvic::irqn::I2C1_ER>();
+        break;
+      case I2C2:
+        NVIC::disableIrq<nvic::irqn::I2C2_EV>();
+        NVIC::disableIrq<nvic::irqn::I2C2_ER>();
+        break;
+    }
+  }
+
 }  // namespace i2c

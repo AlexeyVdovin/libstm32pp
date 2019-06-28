@@ -42,6 +42,8 @@
 
 // High-level functions
 namespace i2c {
+
+
   template<Address I>
   class Standard {
     public:
@@ -91,6 +93,13 @@ namespace i2c {
       static inline bool canSendData();
       static inline bool hasTranferFinished();
       static inline bool isTheBusBusy();
+
+      static inline bool isAddrMatched();
+      static inline bool isStopReceived();
+
+      static inline void unmaskInterrupts();
+      static inline void maskInterrupts();
+
       static void writeSlaveRegister(
           u8 const slaveAddress,
           u8 const registerAddress,
