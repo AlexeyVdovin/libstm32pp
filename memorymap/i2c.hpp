@@ -129,8 +129,8 @@ namespace i2c {
         MASK = 1 << POSITION
       };
       enum States {
-        CLOCK_STRETCHING_DISABLED = 0 << POSITION,
-        CLOCK_STRETCHING_ENABLED = 1 << POSITION,
+        CLOCK_STRETCHING_ENABLED = 0 << POSITION,
+        CLOCK_STRETCHING_DISABLED = 1 << POSITION,
       };
     }  // namespace nostretch
 

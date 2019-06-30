@@ -241,7 +241,7 @@ namespace clk {
    *
    * Select the PLL parameters ************************************************/
   enum {
-    __PLLMUL = 8 // 4MHz x 7 - OK
+    __PLLMUL = 11 // 4MHz x 11 - OK
   };
   /************************************************ Select the PLL paraneters */
 #else // STM32F1XX
@@ -462,7 +462,7 @@ namespace clk {
    *
    * Define the prescaler parameters below ************************************/
   enum {
-    __ADCPRE = 2,
+    __ADCPRE = 3,
   };
   /************************************ Define the prescaler parameters above */
 #endif
