@@ -96,6 +96,9 @@ namespace adc {
           adc::cr1::discen::States,
           adc::cr1::jdiscen::States,
           adc::cr1::discnum::States,
+#ifdef STM32F1XX
+          adc::cr1::dualmod::States,
+#endif
           adc::cr1::jawden::States,
           adc::cr1::awden::States,
 #ifndef STM32F1XX

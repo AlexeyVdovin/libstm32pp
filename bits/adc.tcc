@@ -325,6 +325,9 @@ namespace adc {
       cr1::discen::States DISCEN,
       cr1::jdiscen::States JDISCEN,
       cr1::discnum::States DISCNUM,
+#ifdef STM32F1XX
+      cr1::dualmod::States DUALMOD,
+#endif
       cr1::jawden::States JAWDEN,
       cr1::awden::States AWDEN,
 #ifndef STM32F1XX      
@@ -350,7 +353,7 @@ namespace adc {
         AWDCH + EOCIE + AWDIE + JEOCIE + SCAN + AWDSGL + JAUTO + DISCEN +
             JDISCEN + DISCNUM + JAWDEN + AWDEN
 #ifdef STM32F1XX
-            + 0;
+            + DUALMOD;
 #else
             + RES + OVRIE;
 #endif

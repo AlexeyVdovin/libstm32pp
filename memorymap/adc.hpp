@@ -277,6 +277,26 @@ namespace adc {
       };
     }  // namespace discnum
 
+#ifdef STM32F1XX
+    namespace dualmod {
+      enum {
+        POSITION = 16,
+        MASK = 0b1111 << POSITION
+      };
+      enum States {
+        INDEPENDENT_MODE = 0 << POSITION,
+        DUALMODE_REGSIMULT_INJECSIMULT_MODE = 1 << POSITION,
+        DUALMODE_REGSIMULT_ALTERTRIG_MODE = 2 << POSITION,
+        DUALMODE_INJECSIMULT_INTERLFAST_MODE = 3 << POSITION,
+        DUALMODE_INJECSIMULT_INTERLSLOW_MODE = 4 << POSITION,
+        DUALMODE_INJECSIMULT_MODE = 5 << POSITION,
+        DUALMODE_REGSIMULT_MODE = 6 << POSITION,
+        DUALMODE_INTERLFAST_MODE = 7 << POSITION,
+        DUALMODE_INTERLSLOW_MODE = 8 << POSITION,
+        DUALMODE_ALTERTRIG_MODE = 9 << POSITION
+      };
+    }  // namespace discnum
+#endif
     namespace jawden {
       enum {
         POSITION = 22,
@@ -426,8 +446,8 @@ namespace adc {
         MASK = 1 << POSITION
       };
       enum States {
-        EXT_TRIGGER_DISABLED = 0 << POSITION,
-        EXT_TRIGGER_ENABLED = 1 << POSITION,
+    	INJECTED_TRIGGER_DISABLED = 0 << POSITION,
+    	INJECTED_TRIGGER_ENABLED = 1 << POSITION,
       };
     } // namespace jexttrig
 
@@ -454,8 +474,8 @@ namespace adc {
         MASK = 1 << POSITION
       };
       enum States {
-        EXT_TRIGGER_DISABLED = 0 << POSITION,
-        EXT_TRIGGER_ENABLED = 1 << POSITION,
+        REGULAR_TRIGGER_DISABLED = 0 << POSITION,
+    	REGULAR_TRIGGER_ENABLED = 1 << POSITION,
       };
     } // namespace jexttrig
 
