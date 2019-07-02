@@ -41,7 +41,7 @@ namespace dma {
         __RW
         u32 ISR;   // 0x00: Interrupt status
         __RW
-        u32 IFCR;// 0x04: Interrupt flag clear
+        u32 IFCR;  // 0x04: Interrupt flag clear
 #else // STM32F1XX
         __RW
         u32 ISR[2];  // 0x00, 0x04: Interrupt status
@@ -107,9 +107,9 @@ namespace dma {
       __RW
       u32 CNDTR;// 0x04: Number of data
       __RW
-      u32 CPAR;// 0x08: Peripheral address
+      u32 CPAR; // 0x08: Peripheral address
       __RW
-      u32 CMAR;// 0x0C: Memory address
+      u32 CMAR; // 0x0C: Memory address
     };
 
     namespace cr {

@@ -477,7 +477,7 @@ namespace adc {
         REGULAR_TRIGGER_DISABLED = 0 << POSITION,
     	REGULAR_TRIGGER_ENABLED = 1 << POSITION,
       };
-    } // namespace jexttrig
+    } // namespace exten
 
     namespace jswstart {
       enum {

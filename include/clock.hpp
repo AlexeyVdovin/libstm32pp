@@ -448,8 +448,8 @@ namespace clk {
    * Define the prescaler parameters below ************************************/
   enum {
     __HPRE = 1,
-    __PPRE1 = 2,
-    __PPRE2 = 2,
+    __PPRE1 = 3,
+    __PPRE2 = 3,
   };
   /************************************ Define the prescaler parameters above */
 
