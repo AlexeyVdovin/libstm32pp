@@ -55,12 +55,93 @@ namespace dma {
       enum {
         OFFSET = 0x00
       };
+      namespace gif {
+        enum {
+          POSITION = 0,
+          MASK = 1 << POSITION
+        };
+        enum States {
+          NO_EVENT = 0 << POSITION,
+          EVENT_OCURRED = 1 << POSITION,
+        };
+      }  // namespace gif
+      namespace tcif {
+        enum {
+          POSITION = 1,
+          MASK = 1 << POSITION
+        };
+        enum States {
+          NO_EVENT = 0 << POSITION,
+          TRANSFER_COMPLETE = 1 << POSITION,
+        };
+      }  // namespace tcif
+      namespace htif {
+        enum {
+          POSITION = 2,
+          MASK = 1 << POSITION
+        };
+        enum States {
+          NO_EVENT = 0 << POSITION,
+          HALF_TRANSFER_COMPLETE = 1 << POSITION,
+        };
+      }  // namespace htif
+      namespace teif {
+        enum {
+          POSITION = 3,
+          MASK = 1 << POSITION
+        };
+        enum States {
+          NO_EVENT = 0 << POSITION,
+          TRANSFER_ERROR = 1 << POSITION,
+        };
+      }  // namespace teif
+
     }  // namespace isr
 
     namespace ifcr {
       enum {
-        OFFSET = 0x00
+        OFFSET = 0x04
       };
+      namespace cgif {
+        enum {
+          POSITION = 0,
+          MASK = 1 << POSITION
+        };
+        enum States {
+          NO_EVENT = 0 << POSITION,
+          CLEAR_EVENT = 1 << POSITION,
+        };
+      }  // namespace cgif
+      namespace ctcif {
+        enum {
+          POSITION = 1,
+          MASK = 1 << POSITION
+        };
+        enum States {
+          NO_EVENT = 0 << POSITION,
+          CLEAR_TRANSFER_COMPLETE = 1 << POSITION,
+        };
+      }  // namespace ctcif
+      namespace chtif {
+        enum {
+          POSITION = 2,
+          MASK = 1 << POSITION
+        };
+        enum States {
+          NO_EVENT = 0 << POSITION,
+          CLEAR_HALF_TRANSFER_COMPLETE = 1 << POSITION,
+        };
+      }  // namespace chtif
+      namespace cteif {
+        enum {
+          POSITION = 3,
+          MASK = 1 << POSITION
+        };
+        enum States {
+          NO_EVENT = 0 << POSITION,
+          CLEAR_TRANSFER_ERROR = 1 << POSITION,
+        };
+      }  // namespace cteif
     }  // namespace ifcr
 #else // STM32F1XX
     namespace lisr {

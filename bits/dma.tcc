@@ -353,7 +353,7 @@ namespace dma {
 
       // TODO DMA, replace the hard-coded numbers
       *(u32 volatile*) (bitband::peripheral<
-          D + C + dma::common::ifcr::OFFSET,
+          D + dma::common::ifcr::OFFSET,
           4 * Channel>()) = 1;
     }
 
@@ -369,7 +369,7 @@ namespace dma {
 
       // TODO DMA, replace the hard-coded numbers
       *(u32 volatile*) (bitband::peripheral<
-          D + C + dma::common::ifcr::OFFSET,
+          D + dma::common::ifcr::OFFSET,
           4 * Channel + 1>()) = 1;
     }
 
@@ -385,7 +385,7 @@ namespace dma {
 
       // TODO DMA, replace the hard-coded numbers
       *(u32 volatile*) (bitband::peripheral<
-          D + C + dma::common::ifcr::OFFSET,
+          D + dma::common::ifcr::OFFSET,
           4 * Channel + 2>()) = 1;
     }
 
@@ -401,7 +401,7 @@ namespace dma {
 
       // TODO DMA, replace the hard-coded numbers
       *(u32 volatile*) (bitband::peripheral<
-          D + C + dma::common::ifcr::OFFSET,
+          D + dma::common::ifcr::OFFSET,
           4 * Channel + 3>()) = 1;
     }
 
