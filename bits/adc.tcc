@@ -90,6 +90,54 @@ namespace adc {
   }
 
   /**
+   * @brief Starts ADC calibration
+   */
+  template<Address A>
+  void Functions<A>::resetCalibration()
+  {
+	*(u32 volatile*) (bitband::peripheral<
+		A + cr2::OFFSET,
+		cr2::rstcal::POSITION
+	>()) = 1;
+  }
+
+  /**
+   * @brief Returns true if the calibration initialized.
+   */
+  template<Address A>
+  bool Functions<A>::hasCalibrationInitialized()
+  {
+	return !(*(bool volatile*) (bitband::peripheral<
+		A + cr2::OFFSET,
+		cr2::rstcal::POSITION
+	>()));
+  }
+
+  /**
+   * @brief Starts ADC calibration
+   */
+  template<Address A>
+  void Functions<A>::startCalibration()
+  {
+	*(u32 volatile*) (bitband::peripheral<
+		A + cr2::OFFSET,
+		cr2::cal::POSITION
+	>()) = 1;
+  }
+  
+  /**
+   * @brief Returns true if the calibration have ended.
+   */
+  template<Address A>
+  bool Functions<A>::hasCalibrationEnded()
+  {
+	return !(*(bool volatile*) (bitband::peripheral<
+		A + cr2::OFFSET,
+		cr2::cal::POSITION
+	>()));
+  }
+
+  /**
    * @brief Starts conversion of regular channels
    */
   template<Address A>
@@ -269,27 +317,27 @@ namespace adc {
    * @brief Configures the order of the regular conversions.
    */
   template<Address A>
-  template<u32 O, u32 C>
+  template<u32 S, u32 C>
   void Functions<A>::setRegularSequenceOrder()
   {
-    static_assert((O >= 1) && (O <= 16), "Order range goes from 1 to 16");
+    static_assert((S >= 1) && (S <= 16), "Order range goes from 1 to 16");
     static_assert((C >= 0) && (C <= 18), "Conversion range goes from 0 to 18");
 
-    reinterpret_cast<Registers*>(A)->SQR[(O > 12) ? 0 : ((O > 6) ? 1 : 2)] &=
+    reinterpret_cast<Registers*>(A)->SQR[(S > 12) ? 0 : ((S > 6) ? 1 : 2)] &=
         ~(sqr::MASK << sqr::POSITION *
-            ((O > 12) ?
-                        (O - 13) :
-                        ((O > 6) ?
-                                   (O - 7) :
-                                   (O - 1))));
+            ((S > 12) ?
+                        (S - 13) :
+                        ((S > 6) ?
+                                   (S - 7) :
+                                   (S - 1))));
 
-    reinterpret_cast<Registers*>(A)->SQR[(O > 12) ? 0 : ((O > 6) ? 1 : 2)] |=
+    reinterpret_cast<Registers*>(A)->SQR[(S > 12) ? 0 : ((S > 6) ? 1 : 2)] |=
         (C << sqr::POSITION *
-            ((O > 12) ?
-                        (O - 13) :
-                        ((O > 6) ?
-                                   (O - 7) :
-                                   (O - 1))));
+            ((S > 12) ?
+                        (S - 13) :
+                        ((S > 6) ?
+                                   (S - 7) :
+                                   (S - 1))));
   }
 
   /**
@@ -347,7 +395,8 @@ namespace adc {
       cr2::jswstart::States JSWSTART,
       cr2::extsel::States EXTSEL,
       cr2::exten::States EXTEN,
-      cr2::swstart::States SWSTART)
+      cr2::swstart::States SWSTART,
+      cr2::tsvrefe::States TSVREFE)
   {
     reinterpret_cast<Registers*>(A)->CR1 =
         AWDCH + EOCIE + AWDIE + JEOCIE + SCAN + AWDSGL + JAUTO + DISCEN +
@@ -360,7 +409,7 @@ namespace adc {
             
     reinterpret_cast<Registers*>(A)->CR2 =
         ADON + CONT + DMA + ALIGN + JEXTSEL + JEXTEN + JSWSTART +
-            EXTSEL + EXTEN + SWSTART
+            EXTSEL + EXTEN + SWSTART + TSVREFE
 #ifdef STM32F1XX
             + 0;
 #else

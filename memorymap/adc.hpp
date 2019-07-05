@@ -373,7 +373,7 @@ namespace adc {
           MASK = 1 << POSITION
       };
     }
-    namespace rst_cal {
+    namespace rstcal {
       enum {
           POSITION = 3,
           MASK = 1 << POSITION
@@ -627,7 +627,7 @@ namespace adc {
   namespace smp {
     enum {
       MASK = 0b111,
-      POSITION = 0
+      POSITION = 3
     };
     enum States {
       SAMPLING_TIME_1_5_CYCLES = 0,
@@ -739,7 +739,7 @@ namespace adc {
   namespace sqr {
     enum {
       MASK = 0b11111,
-      POSITION = 0
+      POSITION = 5
     };
   }  // namespace sqr
 
@@ -764,7 +764,7 @@ namespace adc {
   namespace jsq {
     enum {
       MASK = 0b11111,
-      POSITION = 0
+      POSITION = 5
     };
   }  // namespace jsq
 

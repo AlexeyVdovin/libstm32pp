@@ -49,6 +49,10 @@ namespace adc {
       static inline void disableClock();
       static inline void enablePeripheral();
       static inline void disablePeripheral();
+      static inline void resetCalibration();
+      static inline bool hasCalibrationInitialized();
+      static inline void startCalibration();
+      static inline bool hasCalibrationEnded();
       static inline void startRegularConversions();
       static inline void startInjectedConversions();
       static inline void enableContinuousConversion();
@@ -118,7 +122,8 @@ namespace adc {
           adc::cr2::jswstart::States,
           adc::cr2::extsel::States,
           adc::cr2::exten::States,
-          adc::cr2::swstart::States);
+          adc::cr2::swstart::States,
+          adc::cr2::tsvrefe::States);
 
     private:
       Functions();
