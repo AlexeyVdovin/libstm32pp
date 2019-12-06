@@ -253,6 +253,24 @@ namespace i2c {
     >()) = 0;
   }
 
+  template<Address I>
+  void Standard<I>::clearNAK()
+  {
+    *(u32 volatile*) (bitband::peripheral<
+        I + sr1::OFFSET,
+        sr1::af::POSITION
+    >()) = 0;
+  }
+
+  template<Address I>
+  void Standard<I>::reset()
+  {
+    *(u32 volatile*) (bitband::peripheral<
+        I + cr1::OFFSET,
+        cr1::swrst::POSITION
+    >()) = 1;
+  }
+
   /**
    * @brief returns true if a start condition has been sent.
    */
@@ -339,6 +357,15 @@ namespace i2c {
   }
 
   template<Address I>
+  bool Standard<I>::isSlaveTransmitting()
+  {
+    return *(bool volatile*) (bitband::peripheral<
+        I + sr2::OFFSET,
+        sr2::tra::POSITION
+    >());
+  }
+
+  template<Address I>
   bool Standard<I>::isAddrMatched()
   {
     return *(bool volatile*) bitband::peripheral<
@@ -354,6 +381,15 @@ namespace i2c {
         I + sr1::OFFSET,
         sr1::stopf::POSITION
     >();
+  }
+  
+  template<Address I>
+  bool Standard<I>::isNakReceived()
+  {
+	return *(bool volatile*) bitband::peripheral<
+		I + sr1::OFFSET,
+		sr1::af::POSITION
+	>();
   }
 
   /**

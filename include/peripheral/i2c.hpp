@@ -79,6 +79,7 @@ namespace i2c {
       static inline void sendStop();
       static inline void sendData(u8 const data);
       static inline u8 getData();
+      static inline void reset();
 
       static inline void sendAddress(
           u8 const add,
@@ -93,9 +94,11 @@ namespace i2c {
       static inline bool canSendData();
       static inline bool hasTranferFinished();
       static inline bool isTheBusBusy();
-
+      static inline bool isSlaveTransmitting();
+      static inline bool isNakReceived();
       static inline bool isAddrMatched();
       static inline bool isStopReceived();
+      static inline void clearNAK();
 
       static inline void unmaskInterrupts();
       static inline void maskInterrupts();
