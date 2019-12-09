@@ -287,6 +287,7 @@ enum {
 enum {
   AHB = SYSTEM / cPow<2, __HPRE>::value,
   CORE = AHB,
+  SYSTICK = AHB / 8,
   APB1 = AHB / cPow<2, __PPRE1>::value,
   APB2 = AHB / cPow<2, __PPRE2>::value,
   APB1_TIMERS = APB1 * ((__PPRE1 == 0) ? 1 : 2),
