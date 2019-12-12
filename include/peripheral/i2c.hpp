@@ -51,11 +51,25 @@ namespace i2c {
         FREQUENCY = clk::APB1
       };
 
-      static inline void configure(
+      static inline void configureI2c(
           i2c::cr1::pe::States,
+          i2c::cr1::engc::States,
+          i2c::cr1::nostretch::States,
+          i2c::cr1::ack::States,
+          i2c::cr2::iterren::States,
+          i2c::cr2::itevten::States,
+          i2c::cr2::itbufen::States,
+          i2c::cr2::dmaen::States,
+          i2c::cr2::last::States);
+
+      static inline void configureSmBus(
+          i2c::cr1::pe::States,
+          i2c::cr1::smbtype::States,
+          i2c::cr1::enarp::States,
           i2c::cr1::enpec::States,
           i2c::cr1::engc::States,
           i2c::cr1::nostretch::States,
+          i2c::cr1::ack::States,
           i2c::cr2::iterren::States,
           i2c::cr2::itevten::States,
           i2c::cr2::itbufen::States,
@@ -73,8 +87,9 @@ namespace i2c {
       static inline void disableClock();
       static inline void enablePeripheral();
       static inline void disablePeripheral();
-      static inline void setSlaveAddr1(u8 addr);
-      static inline void setSlaveAddr2(u8 addr);
+      static inline void setSlave7BitAddr1(u8 addr);
+      static inline void setSlave10BitAddr1(u8 addr);
+      static inline void setSlave7BitAddr2(u8 addr);
       static inline void sendStart();
       static inline void sendStop();
       static inline void sendData(u8 const data);

@@ -283,12 +283,60 @@ namespace i2c {
     enum {
       OFFSET = 0x08
     };
+    namespace addr10 {
+      enum {
+        POSITION = 0,
+        MASK = 0x3ff << POSITION
+      };
+    }  // namespace addr10
+    namespace addr7 {
+      enum {
+        POSITION = 1,
+        MASK = 0x7f << POSITION
+      };
+    }  // namespace addr7
+    namespace res1 {
+      enum {
+        POSITION = 14,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        DEFAULT = 1 << POSITION,
+      };
+    }  // namespace res1
+    namespace mode {
+      enum {
+        POSITION = 15,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        MODE_7BIT = 0 << POSITION,
+        MODE_10BIT = 1 << POSITION,
+      };
+    }  // namespace mode
+
   }  // namespace oar1
 
   namespace oar2 {
     enum {
       OFFSET = 0x0C
     };
+    namespace endual {
+      enum {
+        POSITION = 0,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        DUAL_MODE_DISABLED = 0 << POSITION,
+        DUAL_MODE_ENABLED = 1 << POSITION,
+      };
+    }  // namespace endual
+    namespace addr7 {
+      enum {
+        POSITION = 1,
+        MASK = 0x7f << POSITION
+      };
+    }  // namespace addr7
   }  // namespace oar2
 
   namespace dr {

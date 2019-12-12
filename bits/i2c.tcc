@@ -29,27 +29,62 @@ namespace i2c {
    * @brief Overrides the old configuration.
    */
   template<Address I>
-  void Standard<I>::configure(
-      cr1::pe::States PE,
-      cr1::enpec::States ENPEC,
-      cr1::engc::States ENGC,
-      cr1::nostretch::States NOSTRETCH,
-      cr2::iterren::States ITERREN,
-      cr2::itevten::States ITVEN,
-      cr2::itbufen::States ITBUFEN,
-      cr2::dmaen::States DMAEN,
-      cr2::last::States LAST)
+  void Standard<I>::configureI2c(
+      i2c::cr1::pe::States PE,
+      i2c::cr1::engc::States ENGC,
+      i2c::cr1::nostretch::States NOSTRETCH,
+      i2c::cr1::ack::States ACK,
+      i2c::cr2::iterren::States ITERREN,
+      i2c::cr2::itevten::States ITVEN,
+      i2c::cr2::itbufen::States ITBUFEN,
+      i2c::cr2::dmaen::States DMAEN,
+      i2c::cr2::last::States LAST)
   {
     static_assert((FREQUENCY >= 2000000) || (FREQUENCY <= 42000000),
-        "I2C Frequency must be between 2 MHz and 42 MHz (inclusive)");
+		"I2C Frequency must be between 2 MHz and 42 MHz (inclusive)");
 
     reinterpret_cast<Registers*>(I)->CR1 =
-        PE + ENPEC + ENGC + NOSTRETCH;
+		PE + ENGC + NOSTRETCH + ACK;
 
     reinterpret_cast<Registers*>(I)->CR2 =
-        ITERREN + ITVEN + ITBUFEN + DMAEN + LAST +
-            ((FREQUENCY / 1000000) << cr2::freq::POSITION);
+		ITERREN + ITVEN + ITBUFEN + DMAEN + LAST +
+			((FREQUENCY / 1000000) << cr2::freq::POSITION);
+    reinterpret_cast<Registers*>(I)->OAR1 = oar1::res1::DEFAULT;
+    reinterpret_cast<Registers*>(I)->OAR2 = oar2::endual::DUAL_MODE_DISABLED;
   }
+
+  /**
+   * @brief Configures the I2C in SmBus mode.
+   * @brief Overrides the old configuration.
+   */
+  template<Address I>
+  void Standard<I>::configureSmBus(
+      i2c::cr1::pe::States PE,
+      i2c::cr1::smbtype::States SMBTYPE,
+      i2c::cr1::enarp::States ENARP,
+      i2c::cr1::enpec::States ENPEC,
+      i2c::cr1::engc::States ENGC,
+      i2c::cr1::nostretch::States NOSTRETCH,
+      i2c::cr1::ack::States ACK,
+      i2c::cr2::iterren::States ITERREN,
+      i2c::cr2::itevten::States ITVEN,
+      i2c::cr2::itbufen::States ITBUFEN,
+      i2c::cr2::dmaen::States DMAEN,
+      i2c::cr2::last::States LAST)
+  {
+	static_assert((FREQUENCY >= 2000000) || (FREQUENCY <= 42000000),
+		"I2C Frequency must be between 2 MHz and 42 MHz (inclusive)");
+
+	reinterpret_cast<Registers*>(I)->CR1 =
+		PE + cr1::smbus::SMBUS_MODE + SMBTYPE + ENARP + ENPEC + ENGC + NOSTRETCH + ACK;
+
+	reinterpret_cast<Registers*>(I)->CR2 =
+		ITERREN + ITVEN + ITBUFEN + DMAEN + LAST +
+			((FREQUENCY / 1000000) << cr2::freq::POSITION);
+    reinterpret_cast<Registers*>(I)->OAR1 = oar1::res1::DEFAULT;
+    reinterpret_cast<Registers*>(I)->OAR2 = oar2::endual::DUAL_MODE_DISABLED;
+  }
+
 
   /**
    * @brief Configures the I2C clock.
@@ -159,21 +194,30 @@ namespace i2c {
   }
 
   /**
-   * @brief Turns off the I2C peripheral.
+   * @brief Set 7bit Slave address1.
    */
   template<Address I>
-  void Standard<I>::setSlaveAddr1(u8 addr)
+  void Standard<I>::setSlave7BitAddr1(u8 addr)
   {
-    reinterpret_cast<Registers*>(I)->OAR1 = addr;
+    reinterpret_cast<Registers*>(I)->OAR1 = oar1::mode::MODE_7BIT + oar1::res1::DEFAULT + (addr<<1);
   }
 
   /**
-   * @brief Turns off the I2C peripheral.
+   * @brief Set 10bit Slave address1.
    */
   template<Address I>
-  void Standard<I>::setSlaveAddr2(u8 addr)
+  void Standard<I>::setSlave10BitAddr1(u8 addr)
   {
-    reinterpret_cast<Registers*>(I)->OAR2 = addr;
+    reinterpret_cast<Registers*>(I)->OAR1 = oar1::mode::MODE_10BIT + oar1::res1::DEFAULT + addr;
+  }
+
+  /**
+   * @brief Set 7bit Slave address2 and Enable dual address mode.
+   */
+  template<Address I>
+  void Standard<I>::setSlave7BitAddr2(u8 addr)
+  {
+    reinterpret_cast<Registers*>(I)->OAR2 = (addr<<1) + oar2::endual::DUAL_MODE_ENABLED;
   }
 
   /**
