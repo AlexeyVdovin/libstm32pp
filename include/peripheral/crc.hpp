@@ -42,6 +42,10 @@ namespace crc {
       static inline void enableClock();
       static inline void disableClock();
 
+      static inline void reset();
+      static inline void calc(u32 data);
+      static inline u32 getCrc();
+
     private:
       Functions();
   };

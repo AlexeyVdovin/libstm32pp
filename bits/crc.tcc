@@ -41,4 +41,20 @@ namespace crc {
     RCC::disableClocks<rcc::ahbenr::CRC>();
 #endif // !STM32F1XX
   }
+  
+  void Functions::reset()
+  {
+	  CRC_REGS->CR = 1;
+  }
+  
+  void Functions::calc(u32 data)
+  {
+	  CRC_REGS->DR = data;
+  }
+  
+  u32 Functions::getCrc()
+  {
+	  return CRC_REGS->DR;
+  }
+
 }  // namespace crc
