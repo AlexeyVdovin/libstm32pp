@@ -99,6 +99,81 @@ namespace flash {
     FLASH_REGS->ACR = LATENCY + HLFCYA + PRFTBE;
   }
 #endif // VALUE_LINE
+  
+  void Functions::unlock()
+  {
+	FLASH_REGS->KEYR = 0x45670123;
+	FLASH_REGS->KEYR = 0xCDEF89AB;
+  }
+  
+  void Functions::lock()
+  {
+	*(u32 volatile*) (bitband::peripheral<
+		ADDRESS + flash::cr::OFFSET,
+	    flash::cr::lock::POSITION >()) = 1;
+  }
+  
+  void Functions::erasePage(u32 addr)
+  {
+	*(u32 volatile*) (bitband::peripheral<
+		ADDRESS + flash::cr::OFFSET,
+		flash::cr::per::POSITION >()) = 1;
+	FLASH_REGS->AR = addr;
+	*(u32 volatile*) (bitband::peripheral<
+		ADDRESS + flash::cr::OFFSET,
+		flash::cr::strt::POSITION >()) = 1;
+  }
+  
+  void Functions::programm(u32 addr, u16 data)
+  {
+	u16* p = (u16*)addr;
+	*(u32 volatile*) (bitband::peripheral<
+		ADDRESS + flash::cr::OFFSET,
+		flash::cr::pg::POSITION >()) = 1;
+	*p = data;
+  }
+  
+  bool Functions::isLocked()
+  {
+	return *(u32 volatile*) (bitband::peripheral<
+		ADDRESS + flash::cr::OFFSET,
+	    flash::cr::lock::POSITION >());
+  }
+
+  bool Functions::isBusy()
+  {
+	return *(u32 volatile*) (bitband::peripheral<
+		ADDRESS + flash::sr::OFFSET,
+		flash::sr::bsy::POSITION >());
+  }
+  
+  bool Functions::isPgmError()
+  {
+	return *(u32 volatile*) (bitband::peripheral<
+		ADDRESS + flash::sr::OFFSET,
+		flash::sr::pgerr::POSITION >());
+  }
+  
+  bool Functions::isWriteError()
+  {
+	return *(u32 volatile*) (bitband::peripheral<
+		ADDRESS + flash::sr::OFFSET,
+		flash::sr::wrprterr::POSITION >());
+  }
+  
+  void Functions::clearStatus()
+  {
+    *(u32 volatile*) (bitband::peripheral<
+		ADDRESS + flash::sr::OFFSET,
+		flash::sr::eop::POSITION >()) = 1;
+    *(u32 volatile*) (bitband::peripheral<
+		ADDRESS + flash::sr::OFFSET,
+		flash::sr::pgerr::POSITION >()) = 1;
+    *(u32 volatile*) (bitband::peripheral<
+		ADDRESS + flash::sr::OFFSET,
+		flash::sr::wrprterr::POSITION >()) = 1;
+  }
+  
 #else // STM32F1XX
   /**
    * @brief Enables the prefetch buffer.

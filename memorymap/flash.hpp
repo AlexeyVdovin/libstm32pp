@@ -34,7 +34,15 @@ namespace flash {
 
 struct Registers {
     __RW
-    u32 ACR;  // 0x00: Access control
+    u32 ACR;      // 0x00: Access control
+    u32 KEYR;     // 0x04: FPEC key register
+    u32 OPTKEYR;  // 0x08: Option key register
+    u32 SR;       // 0x0c: Status register
+    u32 CR;       // 0x10: Control register
+    u32 AR;       // 0x14: Address register
+    u32 Reserved;
+    u32 OBR;      // 0x1C: Option byte register
+    u32 WRPR;     // 0x20: Write protection register
 };
 
 #ifdef STM32F1XX
@@ -51,7 +59,7 @@ namespace acr {
     enum States {
       ZERO_WAIT_STATE = 0 << POSITION,
       ONE_WAIT_STATE = 1 << POSITION,
-      TWO_WAIT_STATES = 2 << POSITION,
+      TWO_WAIT_STATES = 2 << POSITION
     };
   }  // namespace latency
 #endif
@@ -62,7 +70,7 @@ namespace acr {
     };
     enum States {
       FLASH_HALF_CYCLE_ACCESS_DISABLED = 0 << POSITION,
-      FLASH_HALF_CYCLE_ACCESS_ENABLED = 1 << POSITION,
+      FLASH_HALF_CYCLE_ACCESS_ENABLED = 1 << POSITION
     };
   }  // namespace prftbe
 #ifndef VALUE_LINE
@@ -73,11 +81,204 @@ namespace acr {
     };
     enum States {
       PREFETCH_DISABLED = 0 << POSITION,
-      PREFETCH_ENABLED = 1 << POSITION,
+      PREFETCH_ENABLED = 1 << POSITION
     };
   }  // namespace prftbe
 #endif
 }  // namespace acr
+namespace sr {
+  enum {
+    OFFSET = 0x0C
+  };
+  namespace bsy {
+    enum {
+      POSITION = 0,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      IDLE = 0 << POSITION,
+      BUSY = 1 << POSITION
+    };
+  }  // namespace bsy
+  namespace pgerr {
+    enum {
+      POSITION = 2,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      NO_ERROR = 0 << POSITION,
+      ERROR = 1 << POSITION
+    };
+  } // namespace pgerr
+  namespace wrprterr {
+    enum {
+      POSITION = 4,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      NO_ERROR = 0 << POSITION,
+      ERROR = 1 << POSITION
+    };
+  } // namespace wrprterr
+  namespace eop {
+    enum {
+      POSITION = 5,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      IN_PROGRESS = 0 << POSITION,
+      COMPLETED = 1 << POSITION
+    };
+  } // namespace eop
+} // namespace sr
+namespace cr {
+  enum {
+    OFFSET = 0x10
+  };
+  namespace pg {
+    enum {
+      POSITION = 0,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      NONE = 0 << POSITION,
+      PROGRAMMING = 1 << POSITION
+    };
+  }  // namespace pg
+  namespace per {
+    enum {
+      POSITION = 1,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      NONE = 0 << POSITION,
+      PAGE_ERASE = 1 << POSITION
+    };
+  }  // namespace per
+  namespace mer {
+    enum {
+      POSITION = 2,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      NONE = 0 << POSITION,
+      MASS_ERASE = 1 << POSITION
+    };
+  }  // namespace mer
+  namespace optpg {
+    enum {
+      POSITION = 4,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      NONE = 0 << POSITION,
+      OPT_BYTE_PGM = 1 << POSITION
+    };
+  }  // namespace optpg
+  namespace opter {
+    enum {
+      POSITION = 5,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      NONE = 0 << POSITION,
+      OPT_BYTE_ERASE = 1 << POSITION
+    };
+  }  // namespace opter
+  namespace strt {
+    enum {
+      POSITION = 6,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      NONE = 0 << POSITION,
+      START_ERASE = 1 << POSITION
+    };
+  }  // namespace per
+  namespace lock {
+    enum {
+      POSITION = 7,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      UNLOCKED = 0 << POSITION,
+      LOCKED = 1 << POSITION
+    };
+  }  // namespace lock
+  namespace optwre {
+    enum {
+      POSITION = 9,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      OPT_LOCKED = 0 << POSITION,
+      WRITE_ENABLE = 1 << POSITION
+    };
+  }  // namespace optwre
+  namespace errie {
+    enum {
+      POSITION = 10,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      DISABLED = 0 << POSITION,
+      ERR_INT_ENABLED = 1 << POSITION
+    };
+  }  // namespace errie
+  namespace eopie {
+    enum {
+      POSITION = 12,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      DISABLED = 0 << POSITION,
+      EOP_INT_ENABLED = 1 << POSITION
+    };
+  }  // namespace eopie
+} // namespace cr
+namespace obr {
+  enum {
+    OFFSET = 0x1C
+  };
+  namespace opterr {
+    enum {
+      POSITION = 0,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      NO_ERROR = 0 << POSITION,
+      ERROR = 1 << POSITION
+    };
+  }  // namespace opterr
+  namespace rdprt {
+    enum {
+      POSITION = 1,
+      MASK = 0b1 << POSITION
+    };
+    enum States {
+      READ_ENABLED = 0 << POSITION,
+      READ_PROTECTED = 1 << POSITION
+    };
+  }  // namespace rdprt
+  namespace user {
+    enum {
+      POSITION = 2,
+      MASK = 0xFF << POSITION
+    };
+  }  // namespace user
+  namespace data0 {
+    enum {
+      POSITION = 10,
+      MASK = 0xFF << POSITION
+    };
+  }  // namespace data0
+  namespace data1 {
+    enum {
+      POSITION = 18,
+      MASK = 0xFF << POSITION
+    };
+  }  // namespace data1
+} // namespace obr
 #else /* STM32F2XX || STM32F4XX */
 namespace acr {
   enum {

@@ -58,6 +58,17 @@ namespace flash {
           flash::acr::hlfcya::States,
           flash::acr::prftbe::States);
 #endif // VALUE_LINE
+
+      static inline void unlock();
+      static inline void lock();
+      static inline void erasePage(u32 addr);
+      static inline void programm(u32 addr, u16 data);
+      static inline bool isLocked();
+      static inline bool isBusy();
+      static inline bool isPgmError();
+      static inline bool isWriteError();
+      static inline void clearStatus();
+
 #else // STM32F1XX
       static inline void enablePrefetch();
       static inline void disablePrefetch();
