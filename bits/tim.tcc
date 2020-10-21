@@ -250,6 +250,17 @@ namespace tim {
   }
 
   /**
+   * @brief Sets the Compare value of the counter.
+   */
+  template<Address T>
+  template<u8 OC>
+  void Functions<T>::setPulse(u16 const ccv)
+  {
+    static_assert(OC < 5 && OC > 0, "Only 4 channels supported.");
+    reinterpret_cast<Registers*>(T)->CCR[OC-1] = ccv;
+  }
+
+  /**
    * @brief Sets the auto-reload value of the counter.
    * @note  A value of 0 blocks the counter.
    */
@@ -761,6 +772,28 @@ namespace tim {
   }
 
   /**
+   * @brief Configures the timer to generate PWM.
+   * @note  This functions doesn't starts the counter.
+   */
+  template<Address T>
+  template<u32 Frequency, u16 Period>
+  void Functions<T>::configurePwm()
+  {
+    configureBasicCounter(
+        cr1::cen::COUNTER_DISABLED,
+        cr1::udis::UPDATE_EVENT_ENABLED,
+        cr1::urs::UPDATE_REQUEST_SOURCE_ALL,
+        cr1::opm::DONT_STOP_COUNTER_AT_NEXT_UPDATE_EVENT,
+        cr1::arpe::AUTO_RELOAD_BUFFERED);
+
+    reinterpret_cast<Registers*>(T)->BDTR = bdtr::moe::OC_OUTPUTS_ENABLED;
+
+    setAutoReload(Period);
+    setPrescaler(FREQUENCY / Frequency - 1);
+    generateUpdate();
+  }
+
+  /**
    * @brief Configures the master mode.
    */
   template<Address T>
@@ -784,4 +817,25 @@ namespace tim {
     reinterpret_cast<Registers*>(T)->CR1 = CEN + UDIS + URS + OPM + ARPE;
   }
 
+  /**
+   * @brief Cofigures PWM output.
+   */
+  template<Address T>
+  template<u8 OC>
+  void Functions<T>::configurePwmOutput(
+        tim::ccer::cce::States CCE,
+        tim::ccer::ccp::States CCP,
+        tim::occmr::ocm::States OCM)
+  {
+    u32 u;
+    static_assert(OC < 5 && OC > 0, "Only 4 channels supported.");
+    
+    u = (reinterpret_cast<Registers*>(T)->CCER) & ~(tim::ccer::MASK << (tim::ccer::POSITION + tim::ccer::SHIFT * (OC-1)));
+    reinterpret_cast<Registers*>(T)->CCER = u | 
+        ((CCE + CCP) << (tim::ccer::POSITION + tim::ccer::SHIFT * (OC-1)));
+    
+    u = (reinterpret_cast<Registers*>(T)->CCMR[(OC-1)/2]) & ~(tim::occmr::MASK << (tim::occmr::POSITION + tim::occmr::SHIFT * ((OC-1)%2)));
+    reinterpret_cast<Registers*>(T)->CCMR[(OC-1)/2] = u | 
+        ((OCM + tim::occmr::ocpe::PRELOAD_ENABLE) << (tim::occmr::POSITION + tim::occmr::SHIFT * ((OC-1)%2)));
+  }
 }  // namespace tim

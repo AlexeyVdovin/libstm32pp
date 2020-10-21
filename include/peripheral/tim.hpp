@@ -89,6 +89,11 @@ namespace tim {
       static inline void enableUpdateDma();
       static inline void disableUpdateDma();
       static inline bool hasUpdateEventOccurred();
+      
+      template<
+          u8
+      >
+      static inline void setPulse(u16 const);
 
       template<
           u32
@@ -102,6 +107,21 @@ namespace tim {
           tim::cr1::urs::States,
           tim::cr1::opm::States,
           tim::cr1::arpe::States);
+
+      template<
+        u32,
+        u16
+      >
+      static inline void configurePwm();
+
+      template<
+        u8
+      >
+      static inline void configurePwmOutput(
+        tim::ccer::cce::States,
+        tim::ccer::ccp::States,
+        tim::occmr::ocm::States
+      );
 
       // TODO TIM capture functions
       // TODO TIM compare functions

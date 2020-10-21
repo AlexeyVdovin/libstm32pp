@@ -68,9 +68,7 @@ namespace tim {
       __RW
       u32 EGR;  // 0x14: Event generation
       __RW
-      u32 CCMR1;  // 0x18: Capture/Compare mode 1
-      __RW
-      u32 CCMR2;  // 0x1C: Capture/Compare mode 2
+      u32 CCMR[2];  // 0x18: Capture/Compare mode
       __RW
       u32 CCER;  // 0x20: Capture/Compare enable
       __RW
@@ -82,13 +80,7 @@ namespace tim {
       __RW
       u32 RCR;  // 0x30: Repetition counter
       __RW
-      u32 CCR1;  // 0x34: Capture/Compare 1
-      __RW
-      u32 CCR2;  // 0x38: Capture/Compare 2
-      __RW
-      u32 CCR3;  // 0x3C: Capture/Compare 3
-      __RW
-      u32 CCR4;  // 0x40: Capture/Compare 4
+      u32 CCR[4]; // 0x34: Capture/Compare
       __RW
       u32 BDTR;  // 0x44: Break and dead-time
       __RW
@@ -269,7 +261,33 @@ namespace tim {
       };
     }  // namespace ti1s
 
-    namespace ois1 {
+    namespace ois {
+      enum {
+        OFFSET = 8,
+        SHIFT = 2,
+        POSITION = 0,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        OCx_0 = 0 << POSITION,
+        OCx_1 = 1 << POSITION,
+      };
+    }  // namespace ois
+
+    namespace oisn {
+      enum {
+        OFFSET = 8,
+        SHIFT = 2,
+        POSITION = 1,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        OCxN_0 = 0 << POSITION,
+        OCxN_1 = 1 << POSITION,
+      };
+    }  // namespace oisn
+
+/*  namespace ois1 {
       enum {
         POSITION = 8,
         MASK = 1 << POSITION
@@ -355,9 +373,11 @@ namespace tim {
         OC4N_0 = 0 << POSITION,
         OC4N_1 = 1 << POSITION,
       };
-    }  // namespace ois4n
+    }  // namespace ois4n */
 
   }  // namespace cr2
+
+
 
   namespace smcr {
     enum {
@@ -487,7 +507,20 @@ namespace tim {
       };
     }  // namespace uie
 
-    namespace cc1ie {
+    namespace ccie {
+      enum {
+        OFFSET = 1,
+        SHIFT = 1,
+        POSITION = 0,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        INTERRUPT_DISABLED = 0 << POSITION,
+        INTERUPT_ENABLED = 1 << POSITION,
+      };
+    }  // namespace ccie
+
+/*  namespace cc1ie {
       enum {
         POSITION = 1,
         MASK = 1 << POSITION
@@ -530,7 +563,7 @@ namespace tim {
         INTERUPT_ENABLED = 1 << POSITION,
       };
     }  // namespace cc4ie
-
+*/
     namespace comie {
       enum {
         POSITION = 5,
@@ -575,7 +608,20 @@ namespace tim {
       };
     }  // namespace ude
 
-    namespace cc1de {
+    namespace ccde {
+      enum {
+        OFFSET = 9,
+        SHIFT = 1,
+        POSITION = 0,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        DMA_REQUEST_DISABLED = 0 << POSITION,
+        DMA_REQUEST_ENABLED = 1 << POSITION,
+      };
+    }  // namespace ccde
+
+/*  namespace cc1de {
       enum {
         POSITION = 9,
         MASK = 1 << POSITION
@@ -618,7 +664,7 @@ namespace tim {
         DMA_REQUEST_ENABLED = 1 << POSITION,
       };
     }  // namespace cc4de
-
+*/
     namespace comde {
       enum {
         POSITION = 13,
@@ -659,6 +705,19 @@ namespace tim {
       };
     }  // namespace uif
 
+    namespace ccif {
+      enum {
+        OFFSET = 1,
+        SHIFT = 1,
+        POSITION = 0,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_INTERRUPT_OCCURRED = 0 << POSITION,
+        INTERRUPT_PENDING = 1 << POSITION,
+      };
+    }  // namespace ccif
+/*
     namespace cc1if {
       enum {
         POSITION = 1,
@@ -701,7 +760,7 @@ namespace tim {
         NO_INTERRUPT_OCCURRED = 0 << POSITION,
         INTERRUPT_PENDING = 1 << POSITION,
       };
-    }  // namespace cc4if
+    }  // namespace cc4if */
 
     namespace comif {
       enum {
@@ -737,6 +796,19 @@ namespace tim {
     }  // namespace bif
 
     namespace cc1of {
+      enum {
+        OFFSET = 0,
+        SHIFT = 1,
+        POSITION = 0,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_OVERCAPTURE_OCCURRED = 0 << POSITION,
+        OVERCAPTURE_DETECTED = 1 << POSITION,
+      };
+    }  // namespace cc1of
+
+/*  namespace cc1of {
       enum {
         POSITION = 9,
         MASK = 1 << POSITION
@@ -778,7 +850,7 @@ namespace tim {
         NO_OVERCAPTURE_OCCURRED = 0 << POSITION,
         OVERCAPTURE_DETECTED = 1 << POSITION,
       };
-    }  // namespace cc4of
+    }  // namespace cc4of */
 
   }  // namespace sr
 
@@ -798,7 +870,20 @@ namespace tim {
       };
     }  // namespace ug
 
-    namespace cc1g {
+    namespace ccg {
+      enum {
+        OFFSET = 1,
+        SHIFT = 1,
+        POSITION = 0,
+        MASK = 1 << POSITION
+      };
+      enum States {
+        NO_ACTION = 0 << POSITION,
+        GENERATE_EVENT = 1 << POSITION,
+      };
+    }  // namespace ccg
+
+/*    namespace cc1g {
       enum {
         POSITION = 1,
         MASK = 1 << POSITION
@@ -840,7 +925,7 @@ namespace tim {
         NO_ACTION = 0 << POSITION,
         GENERATE_EVENT = 1 << POSITION,
       };
-    }  // namespace cc4g
+    }  // namespace cc4g */
 
     namespace comg {
       enum {
@@ -877,12 +962,15 @@ namespace tim {
 
   }  // namespace egr
 
-  namespace iccmr1 {
+  namespace iccmr {
     enum {
-      OFFSET = 0x18
+      OFFSET = 0x18,
+      POSITION = 0,
+      SHIFT = 8,
+      MASK = 0xFF
     };
 
-    namespace cc1s {
+    namespace ccs {
       enum {
         POSITION = 0,
         MASK = 0b11 << POSITION
@@ -893,9 +981,9 @@ namespace tim {
         CC_INPUT_TI2 = 2 << POSITION,
         CC_INPUT_TRC = 3 << POSITION,
       };
-    }  // namespace cc1s
+    }  // namespace ccs
 
-    namespace ic1psc {
+    namespace icpsc {
       enum {
         POSITION = 2,
         MASK = 0b11 << POSITION
@@ -906,9 +994,9 @@ namespace tim {
         CAPTURE_EVERY_4_EV = 2 << POSITION,
         CAPTURE_EVERY_8_EV = 3 << POSITION,
       };
-    }  // namespace ic1psc
+    }  // namespace icpsc
 
-    namespace ic1f {
+    namespace icf {
       enum {
         POSITION = 4,
         MASK = 0b1111 << POSITION
@@ -931,67 +1019,19 @@ namespace tim {
         F_DTS_32_N6 = 14 << POSITION,
         F_DTS_32_N8 = 15 << POSITION,
       };
-    }  // namespace ic1f
+    }  // namespace icf
 
-    namespace cc2s {
-      enum {
-        POSITION = 8,
-        MASK = 0b11 << POSITION
-      };
-      enum States {
-        CC_OUTPUT = 0 << POSITION,
-        CC_INPUT_TI1 = 1 << POSITION,
-        CC_INPUT_TI2 = 2 << POSITION,
-        CC_INPUT_TRC = 3 << POSITION,
-      };
-    }  // namespace cc2s
+  }  // namespace iccmr
 
-    namespace ic2psc {
-      enum {
-        POSITION = 10,
-        MASK = 0b11 << POSITION
-      };
-      enum States {
-        CAPTURE_EACH_TIME = 0 << POSITION,
-        CAPTURE_EVERY_2_EV = 1 << POSITION,
-        CAPTURE_EVERY_4_EV = 2 << POSITION,
-        CAPTURE_EVERY_8_EV = 3 << POSITION,
-      };
-    }  // namespace ic2psc
-
-    namespace ic2f {
-      enum {
-        POSITION = 12,
-        MASK = 0b1111 << POSITION
-      };
-      enum States {
-        F_DTS = 0 << POSITION,
-        F_CK_INT_N2 = 1 << POSITION,
-        F_CK_INT_N4 = 2 << POSITION,
-        F_CK_INT_N8 = 3 << POSITION,
-        F_DTS_2_N6 = 4 << POSITION,
-        F_DTS_2_N8 = 5 << POSITION,
-        F_DTS_4_N6 = 6 << POSITION,
-        F_DTS_4_N8 = 7 << POSITION,
-        F_DTS_8_N6 = 8 << POSITION,
-        F_DTS_8_N8 = 9 << POSITION,
-        F_DTS_16_N5 = 10 << POSITION,
-        F_DTS_16_N6 = 11 << POSITION,
-        F_DTS_16_N8 = 12 << POSITION,
-        F_DTS_32_N5 = 13 << POSITION,
-        F_DTS_32_N6 = 14 << POSITION,
-        F_DTS_32_N8 = 15 << POSITION,
-      };
-    }  // namespace ic2f
-
-  }  // namespace iccmr1
-
-  namespace occmr1 {
+  namespace occmr {
     enum {
-      OFFSET = 0x18
+      OFFSET = 0x18,
+      POSITION = 0,
+      SHIFT = 8,
+      MASK = 0xFF
     };
 
-    namespace cc1s {
+    namespace ccs {
       enum {
         POSITION = 0,
         MASK = 0b11 << POSITION
@@ -1002,9 +1042,9 @@ namespace tim {
         CC_INPUT_TI2 = 2 << POSITION,
         CC_INPUT_TRC = 3 << POSITION,
       };
-    }  // namespace cc1s
+    }  // namespace ccs
 
-    namespace oc1fe {
+    namespace ocfe {
       enum {
         POSITION = 2,
         MASK = 1 << POSITION
@@ -1013,9 +1053,9 @@ namespace tim {
         CC_NORMAL = 0 << POSITION,
         CMP_MATCH_CC_OUTPUT = 1 << POSITION,
       };
-    }  // namespace oc1fe
+    }  // namespace ocfe
 
-    namespace oc1pe {
+    namespace ocpe {
       enum {
         POSITION = 3,
         MASK = 1 << POSITION
@@ -1026,7 +1066,7 @@ namespace tim {
       };
     }  // namespace oc1pe
 
-    namespace oc1m {
+    namespace ocm {
       enum {
         POSITION = 4,
         MASK = 0b111 << POSITION
@@ -1041,9 +1081,9 @@ namespace tim {
         PWM_MODE_1 = 6 << POSITION,
         PWM_MODE_2 = 7 << POSITION,
       };
-    }  // namespace oc1m
+    }  // namespace ocm
 
-    namespace oc1ce {
+    namespace occe {
       enum {
         POSITION = 7,
         MASK = 1 << POSITION
@@ -1052,315 +1092,10 @@ namespace tim {
         IGNORE = 0 << POSITION,
         CLEAR = 1 << POSITION,
       };
-    }  // namespace oc1ce
+    }  // namespace occe
 
-    namespace cc2s {
-      enum {
-        POSITION = 8,
-        MASK = 0b11 << POSITION
-      };
-      enum States {
-        CC_OUTPUT = 0 << POSITION,
-        CC_INPUT_TI1 = 1 << POSITION,
-        CC_INPUT_TI2 = 2 << POSITION,
-        CC_INPUT_TRC = 3 << POSITION,
-      };
-    }  // namespace cc2s
+  }  // namespace occmr
 
-    namespace oc2fe {
-      enum {
-        POSITION = 10,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        CC_NORMAL = 0 << POSITION,
-        CMP_MATCH_CC_OUTPUT = 1 << POSITION,
-      };
-    }  // namespace oc2fe
-
-    namespace oc2pe {
-      enum {
-        POSITION = 11,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        PRELOAD_DISABLE = 0 << POSITION,
-        PRELOAD_ENABLE = 1 << POSITION,
-      };
-    }  // namespace oc2pe
-
-    namespace oc2m {
-      enum {
-        POSITION = 12,
-        MASK = 0b111 << POSITION
-      };
-      enum States {
-        FROZEN_MODE = 0 << POSITION,
-        CH_ACTIVE_ON_MATCH = 1 << POSITION,
-        CH_INACTIVE_ON_MATCH = 2 << POSITION,
-        TOGGLE_MODE = 3 << POSITION,
-        FORCE_INACTIVE = 4 << POSITION,
-        FORCE_ACTIVE = 5 << POSITION,
-        PWM_MODE_1 = 6 << POSITION,
-        PWM_MODE_2 = 7 << POSITION,
-      };
-    }  // namespace oc2m
-
-    namespace oc2ce {
-      enum {
-        POSITION = 15,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        IGNORE = 0 << POSITION,
-        CLEAR = 1 << POSITION,
-      };
-    }  // namespace oc2ce
-
-  }  // namespace occmr1
-
-  namespace iccmr2 {
-    enum {
-      OFFSET = 0x1C
-    };
-
-    namespace cc3s {
-      enum {
-        POSITION = 0,
-        MASK = 0b11 << POSITION
-      };
-      enum States {
-        CC_OUTPUT = 0 << POSITION,
-        CC_INPUT_TI1 = 1 << POSITION,
-        CC_INPUT_TI2 = 2 << POSITION,
-        CC_INPUT_TRC = 3 << POSITION,
-      };
-    }  // namespace cc3s
-
-    namespace ic3psc {
-      enum {
-        POSITION = 2,
-        MASK = 0b11 << POSITION
-      };
-      enum States {
-        CAPTURE_EACH_TIME = 0 << POSITION,
-        CAPTURE_EVERY_2_EV = 1 << POSITION,
-        CAPTURE_EVERY_4_EV = 2 << POSITION,
-        CAPTURE_EVERY_8_EV = 3 << POSITION,
-      };
-    }  // namespace ic3psc
-
-    namespace ic3f {
-      enum {
-        POSITION = 4,
-        MASK = 0b1111 << POSITION
-      };
-      enum States {
-        F_DTS = 0 << POSITION,
-        F_CK_INT_N2 = 1 << POSITION,
-        F_CK_INT_N4 = 2 << POSITION,
-        F_CK_INT_N8 = 3 << POSITION,
-        F_DTS_2_N6 = 4 << POSITION,
-        F_DTS_2_N8 = 5 << POSITION,
-        F_DTS_4_N6 = 6 << POSITION,
-        F_DTS_4_N8 = 7 << POSITION,
-        F_DTS_8_N6 = 8 << POSITION,
-        F_DTS_8_N8 = 9 << POSITION,
-        F_DTS_16_N5 = 10 << POSITION,
-        F_DTS_16_N6 = 11 << POSITION,
-        F_DTS_16_N8 = 12 << POSITION,
-        F_DTS_32_N5 = 13 << POSITION,
-        F_DTS_32_N6 = 14 << POSITION,
-        F_DTS_32_N8 = 15 << POSITION,
-      };
-    }  // namespace ic3f
-
-    namespace cc4s {
-      enum {
-        POSITION = 8,
-        MASK = 0b11 << POSITION
-      };
-      enum States {
-        CC_OUTPUT = 0 << POSITION,
-        CC_INPUT_TI1 = 1 << POSITION,
-        CC_INPUT_TI2 = 2 << POSITION,
-        CC_INPUT_TRC = 3 << POSITION,
-      };
-    }  // namespace cc4s
-
-    namespace ic4psc {
-      enum {
-        POSITION = 10,
-        MASK = 0b11 << POSITION
-      };
-      enum States {
-        CAPTURE_EACH_TIME = 0 << POSITION,
-        CAPTURE_EVERY_2_EV = 1 << POSITION,
-        CAPTURE_EVERY_4_EV = 2 << POSITION,
-        CAPTURE_EVERY_8_EV = 3 << POSITION,
-      };
-    }  // namespace ic4psc
-
-    namespace ic4f {
-      enum {
-        POSITION = 12,
-        MASK = 0b1111 << POSITION
-      };
-      enum States {
-        F_DTS = 0 << POSITION,
-        F_CK_INT_N2 = 1 << POSITION,
-        F_CK_INT_N4 = 2 << POSITION,
-        F_CK_INT_N8 = 3 << POSITION,
-        F_DTS_2_N6 = 4 << POSITION,
-        F_DTS_2_N8 = 5 << POSITION,
-        F_DTS_4_N6 = 6 << POSITION,
-        F_DTS_4_N8 = 7 << POSITION,
-        F_DTS_8_N6 = 8 << POSITION,
-        F_DTS_8_N8 = 9 << POSITION,
-        F_DTS_16_N5 = 10 << POSITION,
-        F_DTS_16_N6 = 11 << POSITION,
-        F_DTS_16_N8 = 12 << POSITION,
-        F_DTS_32_N5 = 13 << POSITION,
-        F_DTS_32_N6 = 14 << POSITION,
-        F_DTS_32_N8 = 15 << POSITION,
-      };
-    }  // namespace ic4f
-
-  }  // namespace iccmr2
-
-  namespace occmr2 {
-    enum {
-      OFFSET = 0x1C
-    };
-
-    namespace cc3s {
-      enum {
-        POSITION = 0,
-        MASK = 0b11 << POSITION
-      };
-      enum States {
-        CC_OUTPUT = 0 << POSITION,
-        CC_INPUT_TI1 = 1 << POSITION,
-        CC_INPUT_TI2 = 2 << POSITION,
-        CC_INPUT_TRC = 3 << POSITION,
-      };
-    }  // namespace cc3s
-
-    namespace oc3fe {
-      enum {
-        POSITION = 2,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        CC_NORMAL = 0 << POSITION,
-        CMP_MATCH_CC_OUTPUT = 1 << POSITION,
-      };
-    }  // namespace oc3fe
-
-    namespace oc3pe {
-      enum {
-        POSITION = 3,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        PRELOAD_DISABLE = 0 << POSITION,
-        PRELOAD_ENABLE = 1 << POSITION,
-      };
-    }  // namespace oc3pe
-
-    namespace oc3m {
-      enum {
-        POSITION = 4,
-        MASK = 0b111 << POSITION
-      };
-      enum States {
-        FROZEN_MODE = 0 << POSITION,
-        CH_ACTIVE_ON_MATCH = 1 << POSITION,
-        CH_INACTIVE_ON_MATCH = 2 << POSITION,
-        TOGGLE_MODE = 3 << POSITION,
-        FORCE_INACTIVE = 4 << POSITION,
-        FORCE_ACTIVE = 5 << POSITION,
-        PWM_MODE_1 = 6 << POSITION,
-        PWM_MODE_2 = 7 << POSITION,
-      };
-    }  // namespace oc3m
-
-    namespace oc3ce {
-      enum {
-        POSITION = 7,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        IGNORE = 0 << POSITION,
-        CLEAR = 1 << POSITION,
-      };
-    }  // namespace oc3ce
-
-    namespace cc4s {
-      enum {
-        POSITION = 8,
-        MASK = 0b11 << POSITION
-      };
-      enum States {
-        CC_OUTPUT = 0 << POSITION,
-        CC_INPUT_TI1 = 1 << POSITION,
-        CC_INPUT_TI2 = 2 << POSITION,
-        CC_INPUT_TRC = 3 << POSITION,
-      };
-    }  // namespace cc4s
-
-    namespace oc4fe {
-      enum {
-        POSITION = 10,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        CC_NORMAL = 0 << POSITION,
-        CMP_MATCH_CC_OUTPUT = 1 << POSITION,
-      };
-    }  // namespace oc4fe
-
-    namespace oc4pe {
-      enum {
-        POSITION = 11,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        PRELOAD_DISABLE = 0 << POSITION,
-        PRELOAD_ENABLE = 1 << POSITION,
-      };
-    }  // namespace oc4pe
-
-    namespace oc4m {
-      enum {
-        POSITION = 12,
-        MASK = 0b111 << POSITION
-      };
-      enum States {
-        FROZEN_MODE = 0 << POSITION,
-        CH_ACTIVE_ON_MATCH = 1 << POSITION,
-        CH_INACTIVE_ON_MATCH = 2 << POSITION,
-        TOGGLE_MODE = 3 << POSITION,
-        FORCE_INACTIVE = 4 << POSITION,
-        FORCE_ACTIVE = 5 << POSITION,
-        PWM_MODE_1 = 6 << POSITION,
-        PWM_MODE_2 = 7 << POSITION,
-      };
-    }  // namespace oc4m
-
-    namespace oc4ce {
-      enum {
-        POSITION = 15,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        IGNORE = 0 << POSITION,
-        CLEAR = 1 << POSITION,
-      };
-    }  // namespace oc4ce
-
-  }  // namespace occmr2
-/*
   namespace iccmr {
 // TODO TIM ICCMR bits
   }// namespace iccmr
@@ -1368,13 +1103,16 @@ namespace tim {
   namespace occmr {
 // TODO TIM OCCMR bits
   }// namespace occmr
-*/
+
   namespace ccer {
     enum {
-      OFFSET = 0x20
+      OFFSET = 0x20,
+      POSITION = 0,
+      MASK = 0b1111,
+      SHIFT = 4,
     };
 
-    namespace cc1e {
+    namespace cce {
       enum {
         POSITION = 0,
         MASK = 1 << POSITION
@@ -1383,9 +1121,9 @@ namespace tim {
         DISABLED = 0 << POSITION,
         ENABLED = 1 << POSITION,
       };
-    }  // namespace cc1e
+    }  // namespace cce
 
-    namespace cc1p {
+    namespace ccp {
       enum {
         POSITION = 1,
         MASK = 1 << POSITION
@@ -1394,9 +1132,9 @@ namespace tim {
         RISING_EDGE_ACTIVE_HIGH = 0 << POSITION,
         FALLING_EDGE_ACTIVE_LOW = 1 << POSITION,
       };
-    }  // namespace cc1p
+    }  // namespace ccp
 
-    namespace cc1ne {
+    namespace ccne {
       enum {
         POSITION = 2,
         MASK = 1 << POSITION
@@ -1405,9 +1143,9 @@ namespace tim {
         DISABLED = 0 << POSITION,
         ENABLED = 1 << POSITION,
       };
-    }  // namespace cc1ne
+    }  // namespace ccne
 
-    namespace cc1np {
+    namespace ccnp {
       enum {
         POSITION = 3,
         MASK = 1 << POSITION
@@ -1416,139 +1154,7 @@ namespace tim {
         ACTIVE_HIGH = 0 << POSITION,
         ACTIVE_LOW = 1 << POSITION,
       };
-    }  // namespace cc1np
-
-    namespace cc2e {
-      enum {
-        POSITION = 4,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        DISABLED = 0 << POSITION,
-        ENABLED = 1 << POSITION,
-      };
-    }  // namespace cc2e
-
-    namespace cc2p {
-      enum {
-        POSITION = 5,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        RISING_EDGE_ACTIVE_HIGH = 0 << POSITION,
-        FALLING_EDGE_ACTIVE_LOW = 1 << POSITION,
-      };
-    }  // namespace cc2p
-
-    namespace cc2ne {
-      enum {
-        POSITION = 6,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        DISABLED = 0 << POSITION,
-        ENABLED = 1 << POSITION,
-      };
-    }  // namespace cc2ne
-
-    namespace cc2np {
-      enum {
-        POSITION = 7,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        ACTIVE_HIGH = 0 << POSITION,
-        ACTIVE_LOW = 1 << POSITION,
-      };
-    }  // namespace cc2np
-
-    namespace cc3e {
-      enum {
-        POSITION = 8,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        DISABLED = 0 << POSITION,
-        ENABLED = 1 << POSITION,
-      };
-    }  // namespace cc3e
-
-    namespace cc3p {
-      enum {
-        POSITION = 9,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        RISING_EDGE_ACTIVE_HIGH = 0 << POSITION,
-        FALLING_EDGE_ACTIVE_LOW = 1 << POSITION,
-      };
-    }  // namespace cc3p
-
-    namespace cc3ne {
-      enum {
-        POSITION = 10,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        DISABLED = 0 << POSITION,
-        ENABLED = 1 << POSITION,
-      };
-    }  // namespace cc3ne
-
-    namespace cc3np {
-      enum {
-        POSITION = 11,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        ACTIVE_HIGH = 0 << POSITION,
-        ACTIVE_LOW = 1 << POSITION,
-      };
-    }  // namespace cc3np
-
-    namespace cc4e {
-      enum {
-        POSITION = 12,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        DISABLED = 0 << POSITION,
-        ENABLED = 1 << POSITION,
-      };
-    }  // namespace cc4e
-
-    namespace cc4p {
-      enum {
-        POSITION = 13,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        RISING_EDGE_ACTIVE_HIGH = 0 << POSITION,
-        FALLING_EDGE_ACTIVE_LOW = 1 << POSITION,
-      };
-    }  // namespace cc4p
-
-    namespace cc4ne {
-      enum {
-        POSITION = 14,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        DISABLED = 0 << POSITION,
-        ENABLED = 1 << POSITION,
-      };
-    }  // namespace cc4ne
-
-    namespace cc4np {
-      enum {
-        POSITION = 15,
-        MASK = 1 << POSITION
-      };
-      enum States {
-        ACTIVE_HIGH = 0 << POSITION,
-        ACTIVE_LOW = 1 << POSITION,
-      };
-    }  // namespace cc4np
+    }  // namespace ccnp
 
   }// namespace ccer
 
@@ -1686,8 +1292,8 @@ namespace tim {
         MASK = 1 << POSITION
       };
       enum States {
-        OC_OUTPUS_DISABLED = 0 << POSITION,
-        OC_OUTPUS_ENABLED = 1 << POSITION,
+        OC_OUTPUTS_DISABLED = 0 << POSITION,
+        OC_OUTPUTS_ENABLED = 1 << POSITION,
       };
     }  // namespace moe
 
