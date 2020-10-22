@@ -153,7 +153,25 @@ namespace usart {
   {
 	return reinterpret_cast<Registers*>(A)->SR;
   }
+
+  /**
+   * @brief Enable TX.
+   */
+  template<Address A>
+  void Asynchronous<A>::enableTX()
+  {
+	*(bool volatile*)(bitband::peripheral<A + cr1::OFFSET, cr1::te::POSITION>()) = true;
+  }
   
+  /**
+   * @brief Disable TX.
+   */
+  template<Address A>
+  void Asynchronous<A>::disableTX()
+  {
+	*(bool volatile*)(bitband::peripheral<A + cr1::OFFSET, cr1::te::POSITION>()) = false;
+  }
+
   /**
    * @brief Enable TX End Interrupt.
    */
@@ -172,6 +190,35 @@ namespace usart {
 	*(bool volatile*)(bitband::peripheral<A + cr1::OFFSET, cr1::txeie::POSITION>()) = false;
   }
 
+  /**
+   * @brief Enable TX Complete Interrupt.
+   */
+  template<Address A>
+  void Asynchronous<A>::enableTCIE()
+  {
+	*(bool volatile*)(bitband::peripheral<A + cr1::OFFSET, cr1::tcie::POSITION>()) = true;
+  }
+  
+  /**
+   * @brief Disable TX Complete Interrupt.
+   */
+  template<Address A>
+  void Asynchronous<A>::disableTCIE()
+  {
+	*(bool volatile*)(bitband::peripheral<A + cr1::OFFSET, cr1::tcie::POSITION>()) = false;
+  }
+
+  template<Address A>
+  bool Asynchronous<A>::isTXEIenabled()
+  {
+	  return *(bool volatile*)(bitband::peripheral<A + cr1::OFFSET, cr1::txeie::POSITION>()) == true;
+  }
+
+  template<Address A>
+  bool Asynchronous<A>::isTCIEenabled()
+  {
+	  return *(bool volatile*)(bitband::peripheral<A + cr1::OFFSET, cr1::tcie::POSITION>()) == true;
+  }
 
   /**
    * @brief Configures the USART for asynchronous operation.

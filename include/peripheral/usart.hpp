@@ -65,9 +65,15 @@ namespace usart {
       template<u32 BAUD_RATE>
       static inline void setBaudRate();
       static inline u32 getStatus();
+      static inline void enableTX();
+      static inline void disableTX();
       static inline void enableTXEI();
       static inline void disableTXEI();
+      static inline void enableTCIE();
+      static inline void disableTCIE();
 
+      static inline bool isTXEIenabled();
+      static inline bool isTCIEenabled();
 
       /**
        * @brief Configures the USART for asynchronous operation.
