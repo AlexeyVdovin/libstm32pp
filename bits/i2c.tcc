@@ -455,17 +455,20 @@ namespace i2c {
     while (!hasAddressTransmitted()) {
     };
 
-    reinterpret_cast<Registers*>(I)->SR2;
+    do {
+      if(isNakReceived()) break;
 
-    sendData(registerAddress);
+      reinterpret_cast<Registers*>(I)->SR2;
 
-    while (!canSendData()) {
-    };
+      sendData(registerAddress);
 
-    sendData(value);
+      while (!canSendData()) { };
+      if(isNakReceived()) break;
 
-    while (!hasTranferFinished()) {
-    };
+      sendData(value);
+
+      while ((!hasTranferFinished()) && (!isNakReceived())) { };
+    } while(0);
 
     sendStop();
 
@@ -512,8 +515,8 @@ namespace i2c {
 
     reinterpret_cast<Registers*>(I)->SR2;
 
-    while (!hasReceivedData()) {
-    };
+    // --> RXnE for single byte reead should be skipped.
+    // while (!hasReceivedData()) { };
 
     sendStop();
 

@@ -58,4 +58,10 @@ namespace afio {
       (reinterpret_cast<Registers*>(ADDRESS)->MAPR & ~mapr::can::MASK) | (MODE << mapr::can::POSITION);
   }
 
+  template <mapr::swj::States MODE>
+  void Functions::configureSwj()
+  {
+    reinterpret_cast<Registers*>(ADDRESS)->MAPR = 
+      (reinterpret_cast<Registers*>(ADDRESS)->MAPR & ~mapr::swj::MASK) | (MODE << mapr::swj::POSITION);
+  }
 } // namespace afio

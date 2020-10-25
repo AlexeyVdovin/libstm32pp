@@ -217,7 +217,7 @@ namespace afio {
         SWJ = 0,
         SWJ_NO_NJTRST = 1,
         JTAG_DP_DISABLED = 2,
-        JTAG_SW_DP_DISABLED = 3
+        JTAG_SW_DP_DISABLED = 4
       };
     }
   }

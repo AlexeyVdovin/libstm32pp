@@ -49,6 +49,7 @@ namespace afio {
       template <exticr::States PORT, u8 PIN> static inline void configureExti();
       template <mapr::usart1::States MODE> static inline void configureUsart1();
       template <mapr::can::States MODE> static inline void configureCan();
+      template <mapr::swj::States MODE> static inline void configureSwj();
 
     private:
       Functions();
