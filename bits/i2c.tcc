@@ -437,6 +437,92 @@ namespace i2c {
   }
 
   /**
+   * @brief Probes a slave device address.
+   */
+  template<Address I>
+  bool Standard<I>::probeSlave(u8 const slaveAddress)
+  {
+    bool res;
+
+    sendStart();
+
+    while (!hasSentStart()) { };
+
+    Standard<I>::sendAddress(slaveAddress, operation::WRITE);
+
+    while (!hasAddressTransmitted()) { };
+
+    res = isNakReceived();
+    reinterpret_cast<Registers*>(I)->SR2;
+
+    sendStop();
+    while (isTheBusBusy()) { };
+
+    return res;
+  }
+
+  /**
+   * @brief Writes  byte to a slave device.
+   */
+  template<Address I>
+  void Standard<I>::writeSlaveByte(
+      u8 const slaveAddress,
+      u8 const value)
+  {
+    sendStart();
+
+    while (!hasSentStart()) {
+    };
+
+    Standard<I>::sendAddress(slaveAddress, operation::WRITE);
+
+    while (!hasAddressTransmitted()) {
+    };
+
+    do {
+      if(isNakReceived()) break;
+      reinterpret_cast<Registers*>(I)->SR2;
+
+      sendData(value);
+
+      while ((!hasTranferFinished()) && (!isNakReceived())) { };
+    } while(0);
+
+    sendStop();
+
+    while (isTheBusBusy()) {
+    };
+  }
+
+  /**
+   * @brief Reads byte from a slave device.
+   */
+  template<Address I>
+  u8 Standard<I>::readSlaveByte(
+      u8 const slaveAddress)
+  {
+    sendStart();
+
+    while (!hasSentStart()) { };
+
+    sendAddress(slaveAddress, operation::READ);
+    disableACK();
+
+    while (!hasAddressTransmitted()) { };
+
+    reinterpret_cast<Registers*>(I)->SR2;
+
+    // --> RXnE for single byte reead should be skipped.
+    // while (!hasReceivedData()) { };
+
+    sendStop();
+
+    while (isTheBusBusy()) { };
+
+    return getData();
+  }
+
+  /**
    * @brief Writes a value to a slave device register.
    */
   template<Address I>

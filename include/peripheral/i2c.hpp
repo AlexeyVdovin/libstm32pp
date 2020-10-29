@@ -118,6 +118,10 @@ namespace i2c {
       static inline void unmaskInterrupts();
       static inline void maskInterrupts();
 
+      static bool probeSlave(u8 const slaveAddress);
+      static void writeSlaveByte(u8 const slaveAddress, u8 value);
+      static u8 readSlaveByte(u8 const slaveAddress);
+
       static void writeSlaveRegister(
           u8 const slaveAddress,
           u8 const registerAddress,
