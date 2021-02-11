@@ -789,7 +789,7 @@ namespace tim {
     reinterpret_cast<Registers*>(T)->BDTR = bdtr::moe::OC_OUTPUTS_ENABLED;
 
     setAutoReload(Period);
-    setPrescaler(FREQUENCY / Frequency - 1);
+    setPrescaler((u16)(FREQUENCY / Frequency) - 1);
     generateUpdate();
   }
 
